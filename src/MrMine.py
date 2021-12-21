@@ -3,7 +3,7 @@ import keyboard
 import time
 
 pyautogui.FAILSAFE = True
-defaultDelay = 0.1 #Default value should be 0.02 i think
+defaultDelay = 0.00000000000001 #Default value should be 0.02 i think
 amountOfFloorsInMrMine = 1337
 
 '''
@@ -29,7 +29,13 @@ oneArrowDown = 107, 906
 
 clickChestInMiddleOfScreen = 969, 557
 
-minerYposition = 975
+#Selling
+sellButton = 622, 758
+amountOfMineralSellPlaces = 2
+
+#Miner position
+minerYpositionMiddleLevel = 608
+minerYpositionLowestLevel = 975
 minerPosistionList = [
     190,
     329,
@@ -43,6 +49,11 @@ minerPosistionList = [
     1434,
 ]
 
+#Minefloors spots to skip
+mineFloorsThatIsDifferentToMiners = [
+    20,
+    45
+]
 modeList = {
     "getC": "GetCurrentPosition | Prints current XY value of mouse position | CTRL C to escape | Syntax: getc",
     "help": "Help | Prints all legal commands | Syntax: help",
@@ -97,28 +108,74 @@ def doFullscreen():
     time.sleep(defaultDelay)
 
 def doCollectAllPotensialChests():
-    while True:
-        pyautogui.moveTo(doubleArrowTop)
-        time.sleep(defaultDelay)
-        pyautogui.click()
-        time.sleep(defaultDelay)
-        pyautogui.click()
-        time.sleep(defaultDelay)
-        for y in range(amountOfFloorsInMrMine):
-            for i in range(len(minerPosistionList)):
-                pyautogui.moveTo(minerPosistionList[i], minerYposition)
-                time.sleep(defaultDelay)
-                pyautogui.click()
-                time.sleep(defaultDelay)
-                pyautogui.moveTo(clickChestInMiddleOfScreen)
-                time.sleep(defaultDelay)
-                pyautogui.click()
-                time.sleep(defaultDelay)
-            pyautogui.moveTo(oneArrowDown)
+#while True:
+#Outdated
+    pyautogui.moveTo(doubleArrowTop)
+    time.sleep(defaultDelay)
+    pyautogui.click()
+    time.sleep(defaultDelay)
+    pyautogui.click()
+    time.sleep(defaultDelay)
+    for y in range(amountOfFloorsInMrMine):
+        skip = False
+        for l in range(len(mineFloorsThatIsDifferentToMiners)):
+            if y == mineFloorsThatIsDifferentToMiners[l]:
+                skip = True
+        if skip:
+            continue
+        for i in range(len(minerPosistionList)):
+            pyautogui.moveTo(minerPosistionList[i], minerYpositionLowestLevel)
             time.sleep(defaultDelay)
             pyautogui.click()
             time.sleep(defaultDelay)
+            pyautogui.moveTo(clickChestInMiddleOfScreen)
+            time.sleep(defaultDelay)
+            pyautogui.click()
+            time.sleep(defaultDelay)
+        pyautogui.moveTo(oneArrowDown)
+        time.sleep(defaultDelay)
+        pyautogui.click()
+        time.sleep(defaultDelay)
 
+def collectChests():
+    #Main lol
+    hop = True
+    future = 0
+    sellingTime = 0
+    while True:
+        pressedSpace = False
+        now = time.process_time()
+        if hop:
+            pyautogui.moveTo(clickChestInMiddleOfScreen) 
+            clickMouse()
+            future = now + 0.001
+            sellingTime = now + 0.1
+            hop = False
+        if now > future:
+            keyboard.press_and_release('space')
+            pressedSpace = True
+        if pressedSpace:
+            for everyMiner in range(len(minerPosistionList)):
+                pyautogui.moveTo(minerPosistionList[everyMiner], minerYpositionMiddleLevel)
+                clickMouse()
+                clickChestInMiddleOfScreens()
+        now = time.process_time()
+        print(now, sellingTime)
+        if now > sellingTime:
+            #sellMinerals()
+            sellingTime = now + 0.1
+
+
+def sellMinerals():
+    #goto mr mine screen
+    pyautogui.moveTo(doubleArrowTop)
+    clickMouse()
+    for everyTrader in range(amountOfMineralSellPlaces):
+        time.sleep(defaultDelay)
+        pressButton("s")
+        pyautogui.moveTo(sellButton)
+        time.sleep(defaultDelay)
+        clickMouse()
 '''
 -------------------------GUI HELPERS-------------------------
 '''
@@ -143,9 +200,29 @@ def printHelp():
         counter += 1
         print(str(counter) + ": " + str(modeList.get(key)))
 
+def clickMouse():
+    pyautogui.click()
+    time.sleep(defaultDelay)
+
+def pressButton(button):
+    #button is a string
+    #eksample: button = "s"
+    pyautogui.press(button)
+    time.sleep(defaultDelay)
+
+def clickChestInMiddleOfScreens():
+        pyautogui.moveTo(clickChestInMiddleOfScreen)
+        time.sleep(defaultDelay)
+        clickMouse()
+        clickMouse()
 '''
 -------------------------MAIN PROGRAM-------------------------
 '''
 
-#menu()
-doAutoEverythingBySequence()
+#print(pyautogui.KEYBOARD_KEYS)
+
+collectChests()
+#menu()  
+#doAutoEverythingBySequence()
+#doCollectAllPotensialChests()
+#sellMinerals()
