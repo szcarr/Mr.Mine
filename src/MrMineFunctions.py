@@ -59,7 +59,7 @@ sellButton = 622, 758
 amountOfMineralSellPlaces = 2
 
 #Gem station 
-amountOfGemSlots = 50
+amountOfGemSlots = 5
 
 redGem = 726, 610
 blueGem = 959, 610
@@ -91,7 +91,23 @@ mineFloorsThatIsDifferentToMiners = [
     45
 ]
 
+#Chests
+amountOfChestsToBeClicked = 5
+
+#Scientists
+scientistCollectButton = 963, 732
+scientistForfeitReward = 963, 771
+scientistTabOne = 570, 248
+scientistTabTwo = 761, 248
+scientistTabThree = 942, 248
+scientistHardDifficulty = 1199, 722
+scientistRelicInvetoryFullOkButton = 968, 172
+scientistForfeitRewardYesButton = 969, 200
+scientistCancelTicketPurchase = 970, 229
+scientistsList = [scientistTabOne, scientistTabTwo, scientistTabThree]
+
 #runTime = time.process_time()
+
 
 '''
 ---------------------------------------------------2560x1440---------------------------------------------------
@@ -104,13 +120,30 @@ def doAutoEverythingBySequence():
     while True:
         collectChestsInMineImproved()
         craftGems(amountOfGemSlots)
+        scientists()
         sellMinerals()
         collectNormalChestsFromMetalDetector()
         craftGems(amountOfGemSlots)
-        sellMinerals()
+        scientists()
+        collectCaveItems()
+        sellMinerals() #Do things before selling
          
+def collectCaveItems():
+    goToMrMineScreen()
+    pressButton('k')
+    time.sleep(defaultDelay)
+    maxCount = round(amountOfChestsToBeClicked * 0.60)
+    if maxCount < 1:
+        maxCount = 1
+    for i in range(maxCount):
+        print("Collecting rewards from caves: " + str(i + 1) + "/" + str(maxCount))
+        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[3]+ 15, currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(minerYpositionMiddleLevel + 314, currentResolution[1], originalResolution[1]))
+        time.sleep(defaultDelay)
+        clickMouse()
+        clickChestInMiddleOfScreens()
 
 def doFullscreen():
+    print("Doing fullscreen")
     pyautogui.moveTo(menuDoubleClick)
     time.sleep(defaultDelay)
     pyautogui.doubleClick()
@@ -119,7 +152,8 @@ def doFullscreen():
 def collectChestsInMineImproved():
     counter = 0
     goToMrMineScreen()
-    while counter < 100:
+    maxCount = amountOfChestsToBeClicked * 2
+    while counter < maxCount:
         keyboard.press_and_release('space')
         time.sleep(defaultDelay)
         for everyMiner in range(len(minerPosistionList)):
@@ -127,10 +161,12 @@ def collectChestsInMineImproved():
             pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[everyMiner], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(minerYpositionMiddleLevel, currentResolution[1], originalResolution[1]))
             clickMouse()
             clickChestInMiddleOfScreens()
+        print("Collecting chests from mine: " + str(counter + 1) + "/" + str(maxCount))
         counter = counter + 1
 
 def sellMinerals():
     #goto mr mine screen
+    print("Selling minerals...")
     goToMrMineScreen()
     for everyTrader in range(amountOfMineralSellPlaces):
         time.sleep(defaultDelay)
@@ -139,9 +175,12 @@ def sellMinerals():
         time.sleep(defaultDelay + 0.01)
         clickMouse()
     clickMouse()
+    time.sleep(defaultDelay)
+    pressButton('esc')
 
 def goToFloorZero():
     #DONE
+    print("Going to floor zero")
     goToMrMineScreen()
     pressButton('k')
     time.sleep(defaultDelay)
@@ -153,6 +192,7 @@ def goToFloorZero():
 
 def goToMrMineScreen():
     #DONE
+    print("Going to Mr.Mine screen")
     pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(doubleArrowTop[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(doubleArrowTop[1], currentResolution[1], originalResolution[1]))
     clickMouse()
 
@@ -160,7 +200,8 @@ def collectNormalChestsFromMetalDetector():
     #DONE
     goToFloorZero()
     counter = 0
-    while counter < 200:
+    maxCount = amountOfChestsToBeClicked
+    while counter < amountOfChestsToBeClicked:
         time.sleep(defaultDelay)
         pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(metalDetector[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(metalDetector[1], currentResolution[1], originalResolution[1]))
         clickMouse()
@@ -168,15 +209,26 @@ def collectNormalChestsFromMetalDetector():
         pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(clickNormalChest[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(clickNormalChest[1], currentResolution[1], originalResolution[1]))
         clickMouse()
         clickChestInMiddleOfScreens()
+        print("Collecting chests from Metal Detector: " + str(counter + 1) + "/" + str(maxCount))
         counter = counter + 1
 
 def craftGems(amountOfGemSlots):
     goToMrMineScreen()
     pressButton('g')
+
+    gemMode = {
+        0: "Red gem",
+        1: "Blue gem",
+        2: "Green gem",
+        3: "Purple gem",
+        4: "Yellow gem"
+    }
+
     for i in range(len(gemList), 0, -1):
         time.sleep(defaultDelay)
         pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(gemList[i - 1][0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(gemList[i - 1][1], currentResolution[0], originalResolution[0])) #LEGALHACK
         for x in range(amountOfGemSlots):
+            print("Crafting " + str(gemMode.get(i - 1)) + " " + str(x + 1) + "/" + str(amountOfGemSlots))
             clickMouse()
 
 '''
@@ -219,9 +271,58 @@ def clickChestInMiddleOfScreens():
         clickMouse()
         clickMouse()
 
+def scientists():
+    #NOT DONE
+    goToMrMineScreen()
+    time.sleep(defaultDelay)
+    keyboard.press_and_release('shift+s')
+    time.sleep(defaultDelay)
+    textString = "Collecting rewards from scientists "
+    for i in range(2):
+        if i > 0:
+            textString = "Queueing new tasks for scientists "
+        for x in range(len(scientistsList)):#amount of scientists
+            print(textString + str(x + 1) + "/" + str(len(scientistsList)) + "...")
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistsList[x][0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistsList[x][1], currentResolution[1], originalResolution[1]))
+            time.sleep(defaultDelay)
+            clickMouse()
+            time.sleep(defaultDelay)
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1], currentResolution[1], originalResolution[1]))
+            time.sleep(defaultDelay)
+            clickMouse()
+            time.sleep(defaultDelay)
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistCollectButton[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistCollectButton[1], currentResolution[1], originalResolution[1]))
+            time.sleep(defaultDelay)
+            clickMouse()
+            time.sleep(defaultDelay)
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistRelicInvetoryFullOkButton[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistRelicInvetoryFullOkButton[1], currentResolution[1], originalResolution[1]))
+            time.sleep(defaultDelay)
+            clickMouse()
+            time.sleep(defaultDelay)
+            clickChestInMiddleOfScreens()
+            time.sleep(defaultDelay)
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistForfeitReward[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistForfeitReward[1], currentResolution[1], originalResolution[1]))
+            time.sleep(defaultDelay)
+            clickMouse()
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistForfeitRewardYesButton[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistForfeitRewardYesButton[1], currentResolution[1], originalResolution[1]))
+            time.sleep(defaultDelay)
+            clickMouse()
+            #next is forfeiting
+    time.sleep(defaultDelay)
+    pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistCancelTicketPurchase[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistCancelTicketPurchase[1], currentResolution[1], originalResolution[1]))
+    time.sleep(defaultDelay)
+    clickMouse()
+    time.sleep(defaultDelay)
+    pressButton('esc')
+
 '''
 -------------------------MAIN PROGRAM-------------------------
 '''
+#convertValuesFromNewScreenToOld(1285, 976) # collect
+#convertValuesFromNewScreenToOld(1285, 1028) # forfeiting reward
+#convertValuesFromNewScreenToOld(760, 330) # scientist 1
+#convertValuesFromNewScreenToOld(1015, 330) # scientist 2
+#convertValuesFromNewScreenToOld(1256, 330) # scienttist 3
+#convertValuesFromNewScreenToOld(1293, 305) # hard difficulty
 
-collectChestsInMineImproved()
-#doAutoEverythingBySequence()
+doAutoEverythingBySequence()
