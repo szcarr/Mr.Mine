@@ -1,4 +1,4 @@
-A program that is supposed to run ontop of the game Mr.Mine
+A program that is supposed to run ontop of the game Mr.Mine \n
 The program automates currently these things: 
     *Automated chest collecting in the mine
     *Automated chest collecting from the metal detector
