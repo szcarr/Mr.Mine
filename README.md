@@ -9,6 +9,8 @@ The program automates currently these things:
     *Automated gem crafting
 
     *Automated selling of minerals
+    
+    *Automated excavations, collecting rewards, burying and forfeiting rewards.
 
 More coming in the future
 
