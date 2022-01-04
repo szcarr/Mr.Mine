@@ -1,4 +1,4 @@
-
+import pyautogui
 
 def convertToCurrentResolutionPosition(actualPositionOnScreen, resolution, resolutionCompared):
     '''
