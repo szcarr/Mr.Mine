@@ -26,5 +26,5 @@ def convertToCurrentResolutionPosition(actualPositionOnScreen, resolution, resol
     
     '''
 
-    position = resolution * (actualPositionOnScreen / resolutionCompared) #Evil hacks
+    position = resolution * (actualPositionOnScreen / resolutionCompared) #Small evil hacks
     return position

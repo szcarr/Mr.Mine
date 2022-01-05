@@ -32,13 +32,17 @@ originalResolution = 1920, 1080
     Mr mine needs to be in "fullscreen" then you can get the coords for
 
     These values are gotten at 1920x1080 screen
-    New values need to be relative to 1920x1080 screen 
+    New values need to be converted from your main screen to 1920x1080 screen
+    ## IF you have 1920x1080 main screen
+    ## THEN you can use those values without converting them
     See MrMineMath.py -> convertToCurrentResolutionPosition() function for more details
 '''
 
 '''
 ---------------------------------------------------1920x1080---------------------------------------------------
 '''
+
+#General
 menuDoubleClick = 935, 175
 
 doubleArrowTop = 110, 200
@@ -138,7 +142,7 @@ def collectCaveItems():
         maxCount = 1
     for i in range(maxCount):
         print("Collecting rewards from caves: " + str(i + 1) + "/" + str(maxCount))
-        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[3]+ 15, currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(minerYpositionMiddleLevel + 314, currentResolution[1], originalResolution[1]))
+        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[3] + MrMineMath.convertToCurrentResolutionPosition(15), currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(minerYpositionMiddleLevel + MrMineMath.convertToCurrentResolutionPosition(314), currentResolution[1], originalResolution[1]))
         time.sleep(defaultDelay)
         clickMouse()
         clickChestInMiddleOfScreens()
@@ -295,19 +299,19 @@ def useTickets():
         pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[7], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(minerYpositionMiddleLevel, currentResolution[1], originalResolution[1]))
         time.sleep(defaultDelay)
         clickMouse()
-        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[4], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistCancelTicketPurchase[1] - 80, currentResolution[1], originalResolution[1]))
+        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[4], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistCancelTicketPurchase[1] - MrMineMath.convertToCurrentResolutionPosition(80), currentResolution[1], originalResolution[1]))
         time.sleep(defaultDelay)
         clickMouse()
 
         #Clicking gold chest
         if firstRun:
             firstRun = False
-            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1] - 80, currentResolution[1], originalResolution[1]))
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1] - MrMineMath.convertToCurrentResolutionPosition(80), currentResolution[1], originalResolution[1]))
             time.sleep(defaultDelay)
             dynamicString = "golden chest"
         else:
             #Openenig normal chests
-            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0] - 360, currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1] - 80, currentResolution[1], originalResolution[1]))
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0] - MrMineMath.convertToCurrentResolutionPosition(360), currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1] - MrMineMath.convertToCurrentResolutionPosition(80), currentResolution[1], originalResolution[1]))
             time.sleep(defaultDelay)
             dynamicString = "normal chest"
         print("Opening " + dynamicString + " with tickets...")
