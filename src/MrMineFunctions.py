@@ -142,7 +142,7 @@ def collectCaveItems():
         maxCount = 1
     for i in range(maxCount):
         print("Collecting rewards from caves: " + str(i + 1) + "/" + str(maxCount))
-        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[3] + MrMineMath.convertToCurrentResolutionPosition(15), currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(minerYpositionMiddleLevel + MrMineMath.convertToCurrentResolutionPosition(314), currentResolution[1], originalResolution[1]))
+        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[3] + MrMineMath.convertToCurrentResolutionPosition(15, currentResolution[0], originalResolution[0]), currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(minerYpositionMiddleLevel + MrMineMath.convertToCurrentResolutionPosition(314, currentResolution[1], originalResolution[1]), currentResolution[1], originalResolution[1]))
         time.sleep(defaultDelay)
         clickMouse()
         clickChestInMiddleOfScreens()
@@ -299,14 +299,14 @@ def useTickets():
         pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[7], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(minerYpositionMiddleLevel, currentResolution[1], originalResolution[1]))
         time.sleep(defaultDelay)
         clickMouse()
-        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[4], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistCancelTicketPurchase[1] - MrMineMath.convertToCurrentResolutionPosition(80), currentResolution[1], originalResolution[1]))
+        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(minerPosistionList[4], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistCancelTicketPurchase[1] - MrMineMath.convertToCurrentResolutionPosition(80, currentResolution[1], originalResolution[1]), currentResolution[1], originalResolution[1]))
         time.sleep(defaultDelay)
         clickMouse()
 
         #Clicking gold chest
         if firstRun:
             firstRun = False
-            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1] - MrMineMath.convertToCurrentResolutionPosition(80), currentResolution[1], originalResolution[1]))
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0], currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1] - MrMineMath.convertToCurrentResolutionPosition(80, currentResolution[1], originalResolution[1]), currentResolution[1], originalResolution[1]))
             time.sleep(defaultDelay)
             dynamicString = "golden chest"
         else:
