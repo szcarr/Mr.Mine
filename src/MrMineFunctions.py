@@ -311,7 +311,7 @@ def useTickets():
             dynamicString = "golden chest"
         else:
             #Openenig normal chests
-            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0] - MrMineMath.convertToCurrentResolutionPosition(360), currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1] - MrMineMath.convertToCurrentResolutionPosition(80), currentResolution[1], originalResolution[1]))
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0] - MrMineMath.convertToCurrentResolutionPosition(360, currentResolution[0], originalResolution[0]), currentResolution[0], originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1] - MrMineMath.convertToCurrentResolutionPosition(80, currentResolution[1], originalResolution[1]), currentResolution[1], originalResolution[1]))
             time.sleep(defaultDelay)
             dynamicString = "normal chest"
         print("Opening " + dynamicString + " with tickets...")
