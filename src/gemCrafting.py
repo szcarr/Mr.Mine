@@ -1,13 +1,18 @@
 import time
 import pyautogui
-import keyboard
 
 import generalFunctions
 import MrMineMath
 import mouseAndKeyboard
 import positionsAndResolution
+import fileHandling
 
 positions = positionsAndResolution.positions
+fh = fileHandling
+
+pathToCurrentDir = fh.getPathToCurrentDir()
+splitBy = fh.detectOS()
+
 
 #Gem station 
 amountOfGemsToCraft = 5
@@ -31,10 +36,22 @@ def craftGems(amountOfGemSlots):
         3: "Purple gem",
         4: "Yellow gem"
     }
+    
+    gamestageFile = pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt"
+    fileOutput = fh.readTXTFile().split("\n")
+    incrementBy = 1
 
-    for i in range(len(gemList), 0, -1):
+    for outputString in fileOutput:
+        if outputString == "startCraftingFromRedGems = True;":
+            incrementBy = 0
+            fh.replaceLineInFile(gamestageFile, fh.getLineNumberFromFile(gamestageFile, "startCraftingFromRedGems = True;"), "startCraftingFromRedGems = False;")
+        elif outputString == "startCraftingFromRedGems = False;":
+            incrementBy = 1
+            fh.replaceLineInFile(gamestageFile, fh.getLineNumberFromFile(gamestageFile, "startCraftingFromRedGems = False;"), "startCraftingFromRedGems = True;")
+
+    for i in range(len(gemList), 0, incrementBy):
         time.sleep(positions.defaultDelay)
-        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(gemList[i - 1][0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(gemList[i - 1][1], positions.currentResolution[0], positions.originalResolution[0])) #LEGALHACK
+        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(gemList[i - incrementBy][0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(gemList[i - incrementBy][1], positions.currentResolution[0], positions.originalResolution[0])) #LEGALHACK
         for x in range(amountOfGemSlots):
             print("Crafting " + str(gemMode.get(i - 1)) + " " + str(x + 1) + "/" + str(amountOfGemSlots))
             mouseAndKeyboard.clickMouse()
