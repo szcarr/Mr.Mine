@@ -1,17 +1,18 @@
 import pyautogui
 import keyboard
 import time
-#import MrMineFunctions
+
+import MrMineMain
 
 exitProgram = False
+print("hgei")
 
 modeList = {
-    "getC": "GetCurrentPosition | Prints current XY value of mouse position | CTRL C to escape | Syntax: getc",
+    "getc": "GetCurrentPosition | Prints current XY value of mouse position | CTRL C to escape | Syntax: getc",
     "help": "Help | Prints all legal commands | Syntax: help",
+    "doall": "Automatic Everything | Does everythong there is to do in Mr.Mine | Syntax: doall",
     "exit": "Exit | Exits current program | Syntax: exit"
 }
-
-#runTime = time.process_time()
 
 '''
 -------------------------MENU-------------------------
@@ -37,6 +38,8 @@ def checkModes(mode):
             printHelp()
         elif modeList[0] == "exit":
             exit()
+        elif modeList[0] == "doall":
+            MrMineMain.doAutoEverythingBySequence()
     except:
         print("Error in selecting mode")
 

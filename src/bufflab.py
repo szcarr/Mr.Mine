@@ -1,0 +1,3 @@
+
+def buffLab():
+    pressButton('b')
