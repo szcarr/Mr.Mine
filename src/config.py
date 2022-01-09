@@ -1,17 +1,19 @@
 import fileHandling
-import os
+import positionsAndResolution
 
 fh = fileHandling
+positions = positionsAndResolution.positions
+
 pathToCurrentDir = fh.getPathToCurrentDir()
 splitBy = fh.detectOS()
 
-gameVersion = 0.6
+programVersion = 0.7
 
 print(pathToCurrentDir)
 
 def initialize():
     try:
-        if not fh.checkIfFileExist(pathToCurrentDir + "cfg" + splitBy):
+        if not fh.checkIfFileExist(pathToCurrentDir + "cfg"):
 
             '''
             If cfg folder does not exist the it creates the folder and adds folder user and game
@@ -24,25 +26,27 @@ def initialize():
             fh.makeDirectory(pathToCurrentDir + "cfg" + splitBy + "user")
             fh.makeDirectory(pathToCurrentDir + "cfg" + splitBy + "gamestage")
 
-            fh.createFileInSpecifiedDir(pathToCurrentDir + "cfg" + splitBy + "user" + splitBy + "userconfig.txt")
-            fh.createFileInSpecifiedDir(pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt")
+            fh.createFileInSpecifiedDir(positions.userconfigFile)
+            fh.createFileInSpecifiedDir(positions.gamestageFile)
 
             #Adding values to userconfig.txt
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "user" + splitBy + "userconfig.txt", "{Mr.Mine script by szcarr Version " + str(gameVersion) + "}\n")
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "{Mr.Mine script by szcarr Version " + str(programVersion) + "}\n")
 
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "user" + splitBy + "userconfig.txt", "[General]\n")
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "user" + splitBy + "userconfig.txt", "amountOfChestsToBeClicked = 10;\n")
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "[General]\n")
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "amountOfChestsToBeClicked = 10;\n")
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "goldchestDetection = False;\n")
 
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "user" + splitBy + "userconfig.txt", "[Excavations]\n")
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "user" + splitBy + "userconfig.txt", "chooseHardDifficulty = False;\n")
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "[Excavations]\n")
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "chooseHardDifficulty = False;\n")
 
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "user" + splitBy + "userconfig.txt", "[Metal Detector]\n") #Dont know
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "user" + splitBy + "userconfig.txt", "temp = True;\n") #Dpnt know
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "[Metal Detector]\n") #Dont know
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "compressToGoldChest = False;\n") #Dpnt know
 
-            #Adding values to userconfig.txt
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt", "{Mr.Mine script by szcarr Version " + str(gameVersion) + "}\n")
+            #Adding values to gamestage.txt
+            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt", "{Mr.Mine script by szcarr Version " + str(programVersion) + "}\n")
 
             fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt", "[Gem Forge]\n")
             fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt", "startCraftingFromRedGems = True;\n")
+
     except FileExistsError:
         print("Error creating file. File already exists.")

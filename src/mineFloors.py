@@ -8,6 +8,7 @@ import MrMineMath
 import mouseAndKeyboard
 import positionsAndResolution
 import fileHandling
+import monsters
 
 pyautogui.FAILSAFE = True
 
@@ -25,40 +26,6 @@ lowerThreeLeftYValue = int(MrMineMath.convertToCurrentResolutionPosition(positio
 
 lowerThreeTopRightXValue = int(MrMineMath.convertToCurrentResolutionPosition(positions.lowerThreeRowsTopRight[0], positions.currentResolution[1], positions.originalResolution[1]))
 lowerThreeLeftXValue = int(MrMineMath.convertToCurrentResolutionPosition(positions.lowerThreeRowsTopRight[1], positions.currentResolution[1], positions.originalResolution[1]))
-
-
-def checkIfMonster():
-    print("Checking for monsters...")
-    monsterConfidence = 1
-    monsterPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monster.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))
-    smallermonsterPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\smallermonster.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))
-    earthmonsterPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monsterearth.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))
-    monstermoonPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monstermoon.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))    
-    
-    monsterList = [monsterPosition, smallermonsterPosition, earthmonsterPosition, monstermoonPosition]
-    foundMonster = False
-    for m in range(len(monsterList)):
-        pyautogui.failSafeCheck()
-        #print(monsterList[m])
-        if monsterList[m] != None:
-            foundMonster = True
-            print("Found a monster!")
-            #Clicking on red exclamation mark
-            monsterPosition = pyautogui.center(monsterList[m])
-            pyautogui.moveTo(monsterPosition[0], monsterPosition[1] + 20)
-            clickMouse()
-
-            #Battlescreen
-            for i in range(20):
-                for x in range(len(positions.allRows)):
-                    for y in range(len(positions.allRows[x])):
-                        pyautogui.failSafeCheck()
-                        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.allRows[x][y][0], positions.currentResolution[1], positions.originalResolution[1]), MrMineMath.convertToCurrentResolutionPosition(positions.allRows[x][y][1], positions.currentResolution[1], positions.originalResolution[1]))
-                        clickMouse()
-            break
-    if not foundMonster:
-        print("Did not find any monsters.")
-
 
 def checkIfOre():
     print("Checking for ores...")
@@ -102,7 +69,9 @@ def collectChestsInMineImproved():
         keyboard.press_and_release('space')
         time.sleep(positions.defaultDelay)
         checkIfOre()
-        checkIfMonster()
+        monsters.checkIfMonster()
+        monsters.checkIfFightScreen()
+
         chestConfidence = 0.6 #0.6 works really good
 
         minerWithChestEarth = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\minerwithchestearth.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
@@ -112,10 +81,18 @@ def collectChestsInMineImproved():
         chest3Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\chest3.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
         chest4Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\chest4.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
 
-        goldchest1Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\goldchest1.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
-        goldchest2Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\goldchest2.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
-        goldchest3Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\goldchest3.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
-        goldchest4Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\goldchest4.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
+        goldchest1Position = None
+        goldchest2Position = None
+        goldchest3Position = None
+        goldchest4Position = None
+
+        #Can disable gold chest detection for better performance
+        if fh.stringInFileExists(positions.userconfigFile, "goldchestDetection = True;"):
+            print("goldchest = True")
+            goldchest1Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\goldchest1.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
+            goldchest2Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\goldchest2.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
+            goldchest3Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\goldchest3.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
+            goldchest4Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\goldchest4.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
 
         #chestleftside1 = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\chestleftside1.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
         #chestleftside2 = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\chestleftside2.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            

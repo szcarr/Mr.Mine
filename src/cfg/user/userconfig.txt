@@ -1,3 +1,8 @@
-{Mr.Mine script by szcarr Version 0.6}
+{Mr.Mine script by szcarr Version 0.7}
+[General]
+amountOfChestsToBeClicked = 10;
+goldchestDetection = False;
 [Excavations]
 chooseHardDifficulty = False;
+[Metal Detector]
+compressToGoldChest = False;

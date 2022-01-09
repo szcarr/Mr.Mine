@@ -186,6 +186,27 @@ def replaceLineInFile(filePathAndName, lineNumber, lineToAdd):
     for i in range(len(document)):
         addTextToSpecifiedFile(filePathAndName, document[i])
 
+def stringInFileExists(filePathAndName, stringToSearchFor):
+
+    '''
+    Returns true if stringToSearchFor exist in file
+    '''
+
+    file = readTXTFile(filePathAndName)
+
+    fileOutput = []
+
+    for line in file:
+        fileOutput = line.split("\n")
+
+    stringExist = False
+
+    for outputString in fileOutput:
+        if outputString == stringToSearchFor:
+            stringExist = True
+
+    return stringExist
+
 #replaceLineInFile("/home/scp092/Documents/Program/Mr.Mine/src/test.txt", getLineNumberFromFile("/home/scp092/Documents/Program/Mr.Mine/src/test.txt", "hola bro"), "inserta verdi")
 #hei = getLineNumberFromFile("/home/scp092/Documents/Program/Mr.Mine/src/cfg/gamestage/gamestage.txt", "startCraftingFromRedGems = True;")
 #print(hei)

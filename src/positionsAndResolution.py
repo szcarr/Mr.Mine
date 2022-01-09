@@ -1,6 +1,13 @@
 import time
 import pyautogui
+
 import MrMineMath
+import fileHandling
+
+fh = fileHandling
+
+pathToCurrentDir = fh.getPathToCurrentDir()
+splitBy = fh.detectOS()
 
 # 0,0       X increases -->
 # +---------------------------+
@@ -47,6 +54,10 @@ class positions:
 
         return tuple(actualSize)
 
+    #File
+    userconfigFile = pathToCurrentDir + "cfg" + splitBy + "user" + splitBy + "userconfig.txt"
+    gamestageFile = pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt"
+    
     #Resolution
     currentResolution = getMainMonitorSize()
     originalResolution = 1920, 1080
