@@ -59,8 +59,14 @@ class positions:
 
     clickChestInMiddleOfScreen = 969, 557
 
+    middleRowBottomLeft = 158, 476
+    middleRowTopRight = 1334, 183 #1334 x
+
+    lowerThreeRowsBottomLeft = 122, 475
+    lowerThreeRowsTopRight = middleRowTopRight[0], (middleRowTopRight[1] * 3)
+
     #Delay
-    defaultDelay = 0.00000000000000001 #For testing use 1.5 seconds else 0.00000000000000001
+    defaultDelay = 0 #For testing use 1.5 seconds else 0.00000000000000001
 
     #Miner position
     minerYpositionMiddleLevel = 608
@@ -83,6 +89,14 @@ class positions:
         20,
         45
     ]
+
+    #Monster
+    firstRow = [[631, 653], [840, 653], [1050, 653]]
+    secondRow = [[631, 702], [840, 702], [1050, 702]]
+    thirdRow = [[631, 752], [840, 752], [1050, 752]]
+    forthRow = [[631, 802], [840, 802], [1050, 802]]
+
+    allRows = [firstRow, secondRow, thirdRow, forthRow]
 
     #Chests
     amountOfChestsToBeClicked = 5

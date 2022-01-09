@@ -1,4 +1,3 @@
-from time import time
 import pyautogui
 import time
 
@@ -39,3 +38,14 @@ def goToMrMineScreen():
     print("Going to Mr.Mine screen")
     pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.doubleArrowTop[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.doubleArrowTop[1], positions.currentResolution[1], positions.originalResolution[1]))
     mouseAndKeyboard.clickMouse()
+
+def goToSafeClickArea():
+    goToFloorZero()
+    goDownXAmountOfFloors(4)
+
+def goDownXAmountOfFloors(x):
+        for i in range(x):
+            time.sleep(positions.defaultDelay)
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.oneArrowDown[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.oneArrowDown[1], positions.currentResolution[1], positions.originalResolution[1]))
+            time.sleep(positions.defaultDelay)
+            mouseAndKeyboard.clickMouse()

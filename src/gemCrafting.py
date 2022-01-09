@@ -38,20 +38,33 @@ def craftGems(amountOfGemSlots):
     }
     
     gamestageFile = pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt"
-    fileOutput = fh.readTXTFile().split("\n")
+
+    file = fh.readTXTFile(gamestageFile)
+
+    fileOutput = []
+
+    for line in file:
+        fileOutput = line.split("\n")
+
     incrementBy = 1
+    startPoint = 0
+    stopPoint = len(gemList)
 
     for outputString in fileOutput:
         if outputString == "startCraftingFromRedGems = True;":
-            incrementBy = 0
+            startPoint = 0
+            incrementBy = 1
+            stopPoint = len(gemList)
             fh.replaceLineInFile(gamestageFile, fh.getLineNumberFromFile(gamestageFile, "startCraftingFromRedGems = True;"), "startCraftingFromRedGems = False;")
         elif outputString == "startCraftingFromRedGems = False;":
-            incrementBy = 1
+            startPoint = len(gemList) - 1
+            incrementBy = -1
+            stopPoint = -1
             fh.replaceLineInFile(gamestageFile, fh.getLineNumberFromFile(gamestageFile, "startCraftingFromRedGems = False;"), "startCraftingFromRedGems = True;")
 
-    for i in range(len(gemList), 0, incrementBy):
+    for i in range(startPoint, stopPoint, incrementBy):
         time.sleep(positions.defaultDelay)
-        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(gemList[i - incrementBy][0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(gemList[i - incrementBy][1], positions.currentResolution[0], positions.originalResolution[0])) #LEGALHACK
+        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(gemList[i][0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(gemList[i][1], positions.currentResolution[0], positions.originalResolution[0])) #LEGALHACK
         for x in range(amountOfGemSlots):
-            print("Crafting " + str(gemMode.get(i - 1)) + " " + str(x + 1) + "/" + str(amountOfGemSlots))
+            print("Crafting " + str(gemMode.get(i)) + " " + str(x + 1) + "/" + str(amountOfGemSlots))
             mouseAndKeyboard.clickMouse()

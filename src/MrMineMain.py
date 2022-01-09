@@ -18,29 +18,22 @@ When fail-safe mode is True, moving the mouse to the upper-left will raise a pya
 '''
 
 amountOfGemsToCraft = 5
-amountOfChestsToBeClicked = 20
+amountOfChestsToBeClicked = 10
 
 def doAutoEverythingBySequence():
     #Main
     while True:
         mineFloors.collectChestsInMineImproved()
         gemCrafting.craftGems(amountOfGemsToCraft)
-        #excavtions.scientists()
+        excavtions.scientists()
         sellMinerals.sellMinerals()
         metalDetector.collectNormalChestsFromMetalDetector()
+        metalDetector.collectGoldChestsFromMetalDetector()
         gemCrafting.craftGems(amountOfGemsToCraft)
-        #excavtions.scientists()
+        excavtions.scientists()
         cave.collectCaveItems(amountOfChestsToBeClicked)
         sellMinerals.sellMinerals() #Do things before selling
-
 
 '''
 -------------------------MAIN PROGRAM-------------------------
 '''
-#convertValuesFromNewScreenToOld(1285, 976) # collect
-#convertValuesFromNewScreenToOld(1285, 1028) # forfeiting reward
-#convertValuesFromNewScreenToOld(760, 330) # scientist 1
-#convertValuesFromNewScreenToOld(1015, 330) # scientist 2
-#convertValuesFromNewScreenToOld(1256, 330) # scienttist 3
-#convertValuesFromNewScreenToOld(1293, 305) # hard difficulty
-#useTickets()

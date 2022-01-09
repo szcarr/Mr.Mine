@@ -29,9 +29,11 @@ def detectOS():
 '''
 
 def checkIfFileExist(filePathAndName):
+
     '''
     Returns True if filename and file extension exists
     '''
+
     if os.path.isfile(filePathAndName):
         #File exist
         return True

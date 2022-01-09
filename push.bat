@@ -1,7 +1,7 @@
 git init
-git add %CD%
+git add .
 git commit -m "New version"
 git remote add origin https://github.com/szcarr/Mr.Mine.git
-git push -u origin main
-git push origin main  
+git push -u origin master
+git push origin master
 pause

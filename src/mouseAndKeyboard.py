@@ -12,6 +12,6 @@ def clickMouse():
 def pressButton(button):
     #button is a string
     #example: button = "s"
-    print("Pressing button " + button + "...")
+    print("Pressing button '" + button + "'")
     pyautogui.press(button)
     time.sleep(positions.defaultDelay)

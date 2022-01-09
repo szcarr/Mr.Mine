@@ -5,8 +5,15 @@ import generalFunctions
 import MrMineMath
 import mouseAndKeyboard
 import positionsAndResolution
+import fileHandling
 
 positions = positionsAndResolution.positions
+fh = fileHandling
+
+pressUseTickets = 756, 140
+
+pressGoldChest = 1153, 639
+pressNormalChest = 768, 639
 
 def useTickets():
     '''
@@ -22,19 +29,22 @@ def useTickets():
         pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.minerPosistionList[7], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.minerYpositionMiddleLevel, positions.currentResolution[1], positions.originalResolution[1]))
         time.sleep(positions.defaultDelay)
         mouseAndKeyboard.clickMouse()
-        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.minerPosistionList[4], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.scientistCancelTicketPurchase[1] - MrMineMath.convertToCurrentResolutionPosition(80, positions.currentResolution[1], positions.originalResolution[1]), positions.currentResolution[1], positions.originalResolution[1]))
+        if pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\general\\null_tickets.png", confidence = 0.8) != None:
+            print("Already zero tickets so skipping...")
+            break            
+        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(pressUseTickets[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(pressUseTickets[1], positions.currentResolution[1], positions.originalResolution[1]))
         time.sleep(positions.defaultDelay)
         mouseAndKeyboard.clickMouse()
 
         #Clicking gold chest
         if firstRun:
             firstRun = False
-            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.scientistHardDifficulty[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.scientistHardDifficulty[1] - MrMineMath.convertToCurrentResolutionPosition(80, positions.currentResolution[1], positions.originalResolution[1]), positions.currentResolution[1], positions.originalResolution[1]))
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(pressGoldChest[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(pressGoldChest[1], positions.currentResolution[1], positions.originalResolution[1]))
             time.sleep(positions.defaultDelay)
             dynamicString = "golden chest"
         else:
             #Openenig normal chests
-            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.scientistHardDifficulty[0] - MrMineMath.convertToCurrentResolutionPosition(360, positions.currentResolution[0], positions.originalResolution[0]), positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.scientistHardDifficulty[1] - MrMineMath.convertToCurrentResolutionPosition(80, positions.currentResolution[1], positions.originalResolution[1]), positions.currentResolution[1], positions.originalResolution[1]))
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(pressNormalChest[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(pressNormalChest[1], positions.currentResolution[1], positions.originalResolution[1]))
             time.sleep(positions.defaultDelay)
             dynamicString = "normal chest"
         print("Opening " + dynamicString + " with tickets...")

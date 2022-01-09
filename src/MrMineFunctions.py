@@ -385,11 +385,11 @@ currentResolution = getMainMonitorSize()
 '''
 -------------------------MAIN PROGRAM-------------------------
 '''
-#convertValuesFromNewScreenToOld(1285, 976) # collect
-#convertValuesFromNewScreenToOld(1285, 1028) # forfeiting reward
+#convertValuesFromNewScreenToOld(210, 898) # collect
+#convertValuesFromNewScreenToOld(2046, 709) # forfeiting reward
 #convertValuesFromNewScreenToOld(760, 330) # scientist 1
 #convertValuesFromNewScreenToOld(1015, 330) # scientist 2
 #convertValuesFromNewScreenToOld(1256, 330) # scienttist 3
 #convertValuesFromNewScreenToOld(1293, 305) # hard difficulty
 #useTickets()
-doAutoEverythingBySequence()
+#210, 898, 2046, 709
