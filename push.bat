@@ -7,4 +7,4 @@ git remote rm origin
 git remote add origin https://github.com/szcarr/Mr.Mine.git
 git pull --rebase origin main
 git push origin main
-REM pause
+pause
