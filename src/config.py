@@ -1,4 +1,5 @@
 import fileHandling
+import os
 
 fh = fileHandling
 pathToCurrentDir = fh.getPathToCurrentDir()
@@ -45,4 +46,3 @@ def initialize():
             fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt", "startCraftingFromRedGems = True;\n")
     except FileExistsError:
         print("Error creating file. File already exists.")
-

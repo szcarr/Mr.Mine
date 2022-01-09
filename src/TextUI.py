@@ -3,8 +3,10 @@ import time
 
 import MrMineMain
 import config
+import setup
 
 config.initialize()
+setup.downloadDependencies()
 
 '''
 This is the main file
