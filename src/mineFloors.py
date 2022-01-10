@@ -72,14 +72,20 @@ def collectChestsInMineImproved():
         monsters.checkIfMonster()
         monsters.checkIfFightScreen()
 
-        chestConfidence = 0.6 #0.6 works really good
+        chestConfidence = 0.8 #0.6 works really good
+        grayscaleIsOn = True
 
         minerWithChestEarth = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\minerwithchestearth.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
 
-        chest1Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\chest1.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
-        chest2Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\chest2.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
-        chest3Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\chest3.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
-        chest4Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\chest4.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
+        earthchest1Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\earthchest1.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue), grayscale = grayscaleIsOn)            
+        earthchest2Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\earthchest2.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue), grayscale = grayscaleIsOn)            
+        earthchest3Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\earthchest3.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue), grayscale = grayscaleIsOn)            
+        earthchest4Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\earthchest4.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue), grayscale = grayscaleIsOn)            
+
+        moonchest1Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\moonchest1.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue), grayscale = grayscaleIsOn)            
+        moonchest2Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\moonchest2.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue), grayscale = grayscaleIsOn)            
+        moonchest3Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\moonchest3.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue), grayscale = grayscaleIsOn)            
+        moonchest4Position = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\moonchest4.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue), grayscale = grayscaleIsOn)            
 
         goldchest1Position = None
         goldchest2Position = None
@@ -100,23 +106,27 @@ def collectChestsInMineImproved():
         chestbackgroundcolor = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\smallchestbackgroundcolor.png", confidence = chestConfidence - 0.1, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
 
         #print(minerWithChestEarth)
-        chestList = [chest1Position, chest2Position, chest3Position, chest4Position, goldchest1Position, goldchest2Position, goldchest3Position, goldchest4Position,
-        minerWithChestEarth] #chestleftside1, chestleftside2]
+        chestList = [
+            earthchest1Position, earthchest2Position, earthchest3Position, earthchest4Position, moonchest1Position,
+            moonchest2Position, moonchest3Position, moonchest4Position, goldchest1Position, goldchest2Position, goldchest3Position,
+            goldchest4Position, minerWithChestEarth
+        ] #chestleftside1, chestleftside2]
         correctXYToMoveTo = None
         for i in range(len(chestList)):
             if chestList[i] != None:
+                print(chestList[i], i)
                 correctXYToMoveTo = chestList[i]
 
-        if correctXYToMoveTo != None:
+        if correctXYToMoveTo != None: #Means it found something
             foundChest = True
-            nothingToDoInARow = 0 # Resets if found a chest
+            nothingToDoInARow = 0 # Resets when it has found a chest
             chestPosition = pyautogui.center(correctXYToMoveTo)
             pyautogui.moveTo(chestPosition[0], correctXYToMoveTo[1] + 50)
             clickMouse()
             clickChestInMiddleOfScreens()
         else:
             nothingToDoInARow = nothingToDoInARow + 1 #Did not find a a chest
-            if chestbackgroundcolor != None:
+            if chestbackgroundcolor != None: #Found yellow background
                 print("Did not find chest on screen, but detected yellow background.")
                 iterateOverAllMinersMiddleFloor()
         print("Collecting chests from mine: " + str(counter + 1) + "/" + str(maxCount))
@@ -138,8 +148,9 @@ def collectChestsInMineOldVersion():
         counter = counter + 1
 
 def iterateOverAllMinersMiddleFloor():
+    keyboard.press("left shift")
     for everyMiner in range(len(positions.minerPosistionList)):
         time.sleep(positions.defaultDelay)
         pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.minerPosistionList[everyMiner], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.minerYpositionMiddleLevel, positions.currentResolution[1], positions.originalResolution[1]))
         mouseAndKeyboard.clickMouse()
-        generalFunctions.clickChestInMiddleOfScreen()
+    keyboard.release("left shift")

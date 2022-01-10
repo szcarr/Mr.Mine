@@ -1,4 +1,5 @@
 import pyautogui
+import time
 
 import fileHandling
 import MrMineMath
@@ -16,13 +17,16 @@ lowerThreeLeftXValue = int(MrMineMath.convertToCurrentResolutionPosition(positio
 
 def checkIfMonster():
     print("Checking for monsters...")
-    monsterConfidence = 1
+    monsterConfidence = 0.8 #was 1
     monsterPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monster.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))
     smallermonsterPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\smallermonster.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))
     earthmonsterPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monsterearth.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))
     monstermoonPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monstermoon.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))    
-    
-    monsterList = [monsterPosition, smallermonsterPosition, earthmonsterPosition, monstermoonPosition]
+    exclamationPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\Exclamation.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))    
+
+    #list should be organized after the most accurate and specific image
+    monsterList = [exclamationPosition, monsterPosition, smallermonsterPosition, earthmonsterPosition, monstermoonPosition]
+    #print(monsterList)
     foundMonster = False
     for m in range(len(monsterList)):
         pyautogui.failSafeCheck()
@@ -42,9 +46,12 @@ def checkIfMonster():
         print("Did not find any monsters.")
 
 def checkIfFightScreen():
-    battle = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monsterbattlescreen.png", confidence = 0.9)
+    battle = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monsterbattlescreen.png", confidence = 0.8)
     if battle != None:
+        print("Found fightscreen")
         fightMonster()
+    else:
+        print("Found no fightscreen")
 
 def fightMonster():
     for i in range(20):
@@ -53,3 +60,5 @@ def fightMonster():
                         pyautogui.failSafeCheck()
                         pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.allRows[x][y][0], positions.currentResolution[1], positions.originalResolution[1]), MrMineMath.convertToCurrentResolutionPosition(positions.allRows[x][y][1], positions.currentResolution[1], positions.originalResolution[1]))
                         mouseAndKeyboard.clickMouse()
+
+#checkIfFightScreen()
