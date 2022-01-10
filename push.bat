@@ -5,6 +5,6 @@ git add .
 git commit -m "New version"
 git remote rm origin
 git remote add origin https://github.com/szcarr/Mr.Mine.git
-git pull --rebase origin main
-git push origin main
+git pull origin main
+git push -f origin main
 pause

@@ -17,7 +17,7 @@ lowerThreeLeftXValue = int(MrMineMath.convertToCurrentResolutionPosition(positio
 
 def checkIfMonster():
     print("Checking for monsters...")
-    monsterConfidence = 0.8 #was 1
+    monsterConfidence = 1 #was 1
     monsterPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monster.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))
     smallermonsterPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\smallermonster.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))
     earthmonsterPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monsterearth.png", confidence = monsterConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))
@@ -34,6 +34,7 @@ def checkIfMonster():
         if monsterList[m] != None:
             foundMonster = True
             print("Found a monster!")
+            print(monsterList[m], m)
             #Clicking on red exclamation mark
             monsterPosition = pyautogui.center(monsterList[m])
             pyautogui.moveTo(monsterPosition[0], monsterPosition[1] + 20)
@@ -54,7 +55,7 @@ def checkIfFightScreen():
         print("Found no fightscreen")
 
 def fightMonster():
-    for i in range(20):
+    for i in range(15): #Might need adjustment
                 for x in range(len(positions.allRows)):
                     for y in range(len(positions.allRows[x])):
                         pyautogui.failSafeCheck()

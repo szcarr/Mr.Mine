@@ -57,12 +57,15 @@ def collectChestsInMineImproved():
     counter = 0
     generalFunctions.goToMrMineScreen()
     generalFunctions.goToSafeClickArea()
-    maxCount = positions.amountOfChestsToBeClicked * 5
+    maxCount = positions.amountOfChestsToBeClicked * 2
     nothingToDoInARow = 0
     amountOfTriesBeforeSkip = 3
-    foundChest = False
+
+    chestConfidence = 0.6 #0.6 works really good
+    fh.replaceLineInFile(positions.userconfigFile, fh.getLineNumberFromFile(positions.gamestageFile, "skippedChestCollecting = True;"), "skippedChestCollecting = False;\n") #Resets it
     while counter < maxCount:
         if nothingToDoInARow > amountOfTriesBeforeSkip:
+            fh.replaceLineInFile(positions.userconfigFile, fh.getLineNumberFromFile(positions.gamestageFile, "skippedChestCollecting = False;"), "skippedChestCollecting = True;\n") #If nothing to do then skips
             print("Nothing to do so skipping.")
             break
         pyautogui.failSafeCheck()
@@ -72,8 +75,45 @@ def collectChestsInMineImproved():
         monsters.checkIfMonster()
         monsters.checkIfFightScreen()
 
-        chestConfidence = 0.8 #0.6 works really good
-        grayscaleIsOn = True
+        chestbackgroundcolor = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\smallchestbackgroundcolor.png", confidence = chestConfidence - 0.1, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
+
+        if chestbackgroundcolor == None:
+            nothingToDoInARow = nothingToDoInARow + 1
+        else:
+            nothingToDoInARow = 0 #reset counter if no background color was found
+        iterateOverAllMinersMiddleFloor()
+        counter = counter + 1
+        print("Collecting chests from mine: " + str(counter + 1) + "/" + str(maxCount))
+        print("Nothing to do count: " + str(nothingToDoInARow) + "/" + str(amountOfTriesBeforeSkip))
+
+def collectChestsInMineWithImageRecognition():
+    #Was used in version 0.7
+    #Slower version but gives more precision
+    #Ended with not using images for this as it slows down the performance alot
+    print("Checking for chests...")
+    counter = 0
+    generalFunctions.goToMrMineScreen()
+    generalFunctions.goToSafeClickArea()
+    maxCount = positions.amountOfChestsToBeClicked * 5
+    nothingToDoInARow = 0
+    amountOfTriesBeforeSkip = 3
+    foundChest = False
+    while counter < maxCount:
+        if nothingToDoInARow > amountOfTriesBeforeSkip:
+            print("Nothing to do so skipping.")
+            break
+
+        chestbackgroundcolor = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\smallchestbackgroundcolor.png", confidence = chestConfidence - 0.1, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
+
+        pyautogui.failSafeCheck()
+        keyboard.press_and_release('space')
+        time.sleep(positions.defaultDelay)
+        checkIfOre()
+        monsters.checkIfMonster()
+        monsters.checkIfFightScreen()
+
+        chestConfidence = 0.6 #0.6 works really good
+        grayscaleIsOn = False
 
         minerWithChestEarth = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\minerwithchestearth.png", confidence = chestConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
 

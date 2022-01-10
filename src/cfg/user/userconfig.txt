@@ -2,6 +2,8 @@
 [General]
 amountOfChestsToBeClicked = 10;
 goldchestDetection = False;
+hasInstalledModules = True;
+
 [Excavations]
 chooseHardDifficulty = False;
 [Metal Detector]

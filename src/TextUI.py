@@ -5,6 +5,10 @@ import MrMineMain
 import config
 import setup
 
+try:
+    config.deleteCFGdir()
+except:
+    pass
 config.initialize()
 setup.downloadDependencies()
 

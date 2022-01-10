@@ -2,7 +2,6 @@ import os
 import platform
 
 
-
 '''
 -------------------------------------------------------PROGRAMS-------------------------------------------------------
 '''
@@ -171,8 +170,9 @@ def getLineNumberFromFile(filePathAndName, stringToSearchFor):
 def replaceLineInFile(filePathAndName, lineNumber, lineToAdd):
 
     '''
-    Deletes old file and creates a new file with the wanted changes
-    Remember that file has start index 0
+    Deletes old file and creates a new file with the wanted changes.\n
+    Remember that file has start index 0.\n
+    Adds a breakline char after lineToAdd.
     '''
 
     document = readTXTFile(filePathAndName)
@@ -189,7 +189,7 @@ def replaceLineInFile(filePathAndName, lineNumber, lineToAdd):
 def stringInFileExists(filePathAndName, stringToSearchFor):
 
     '''
-    Returns true if stringToSearchFor exist in file
+    Returns true if stringToSearchFor exists the given file
     '''
 
     file = readTXTFile(filePathAndName)
@@ -197,12 +197,12 @@ def stringInFileExists(filePathAndName, stringToSearchFor):
     fileOutput = []
 
     for line in file:
-        fileOutput = line.split("\n")
+        fileOutput.append(line.split("\n"))
 
     stringExist = False
 
     for outputString in fileOutput:
-        if outputString == stringToSearchFor:
+        if outputString[0] == stringToSearchFor:
             stringExist = True
 
     return stringExist
@@ -210,3 +210,4 @@ def stringInFileExists(filePathAndName, stringToSearchFor):
 #replaceLineInFile("/home/scp092/Documents/Program/Mr.Mine/src/test.txt", getLineNumberFromFile("/home/scp092/Documents/Program/Mr.Mine/src/test.txt", "hola bro"), "inserta verdi")
 #hei = getLineNumberFromFile("/home/scp092/Documents/Program/Mr.Mine/src/cfg/gamestage/gamestage.txt", "startCraftingFromRedGems = True;")
 #print(hei)
+#print(stringInFileExists(positions.userconfigFile, "hasInstalledModules = False;"))

@@ -7,7 +7,7 @@ positions = positionsAndResolution.positions
 pathToCurrentDir = fh.getPathToCurrentDir()
 splitBy = fh.detectOS()
 
-programVersion = 0.7
+programVersion = 0.8
 
 print(pathToCurrentDir)
 
@@ -35,6 +35,7 @@ def initialize():
             fh.addTextToSpecifiedFile(positions.userconfigFile, "[General]\n")
             fh.addTextToSpecifiedFile(positions.userconfigFile, "amountOfChestsToBeClicked = 10;\n")
             fh.addTextToSpecifiedFile(positions.userconfigFile, "goldchestDetection = False;\n")
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "hasInstalledModules = False;\n")
 
             fh.addTextToSpecifiedFile(positions.userconfigFile, "[Excavations]\n")
             fh.addTextToSpecifiedFile(positions.userconfigFile, "chooseHardDifficulty = False;\n")
@@ -43,10 +44,16 @@ def initialize():
             fh.addTextToSpecifiedFile(positions.userconfigFile, "compressToGoldChest = False;\n") #Dpnt know
 
             #Adding values to gamestage.txt
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt", "{Mr.Mine script by szcarr Version " + str(programVersion) + "}\n")
+            fh.addTextToSpecifiedFile(positions.gamestageFile, "{Mr.Mine script by szcarr Version " + str(programVersion) + "}\n")
 
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt", "[Gem Forge]\n")
-            fh.addTextToSpecifiedFile(pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt", "startCraftingFromRedGems = True;\n")
+            fh.addTextToSpecifiedFile(positions.gamestageFile, "[General]\n")
+            fh.addTextToSpecifiedFile(positions.gamestageFile, "skippedChestCollecting = False;\n")
+
+            fh.addTextToSpecifiedFile(positions.gamestageFile, "[Gem Forge]\n")
+            fh.addTextToSpecifiedFile(positions.gamestageFile, "startCraftingFromRedGems = True;\n")
 
     except FileExistsError:
         print("Error creating file. File already exists.")
+
+def deleteCFGdir():
+    fh.removeFile(pathToCurrentDir + "cfg")

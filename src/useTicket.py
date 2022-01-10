@@ -25,7 +25,7 @@ def useTickets():
     generalFunctions.goToFloorZero()
     time.sleep(positions.defaultDelay)
 
-    nullTicketConfidence = 0.98 #Maybe needs adjusting
+    nullTicketConfidence = 0.6 #Maybe needs adjusting
     firstRun = True
     dynamicString = ""
     for i in range(10):
