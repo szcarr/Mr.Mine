@@ -32,6 +32,7 @@ def doAutoEverythingBySequence():
         gemCrafting.craftGems(amountOfGemsToCraft)
         excavtions.scientists()
         cave.collectCaveItems(amountOfChestsToBeClicked)
+        bufflab.buffLab()
         sellMinerals.sellMinerals() #Do things before selling
 
 '''

@@ -25,14 +25,14 @@ def useTickets():
     generalFunctions.goToFloorZero()
     time.sleep(positions.defaultDelay)
 
-    nullTicketConfidence = 0.6 #Maybe needs adjusting
+    nullTicketConfidence = 0.8 #Maybe needs adjusting
     firstRun = True
     dynamicString = ""
     for i in range(10):
         pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.minerPosistionList[7], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.minerYpositionMiddleLevel, positions.currentResolution[1], positions.originalResolution[1]))
         time.sleep(positions.defaultDelay)
         mouseAndKeyboard.clickMouse()
-        ticketPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\general\\null_tickets.png", confidence = nullTicketConfidence)
+        ticketPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\general\\null_tickets.png", confidence = nullTicketConfidence, grayscale = True)
 
         if ticketPosition != None:
             print("Already zero tickets so skipping...")

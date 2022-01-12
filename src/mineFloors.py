@@ -29,7 +29,7 @@ lowerThreeLeftXValue = int(MrMineMath.convertToCurrentResolutionPosition(positio
 
 def checkIfOre():
     print("Checking for ores...")
-    oreConfidence = 0.7
+    oreConfidence = 0.85
 
     siliconPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\siliconore.png", confidence = oreConfidence)
     magnesiumPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\magnesiumore.png", confidence = oreConfidence)
@@ -61,7 +61,7 @@ def collectChestsInMineImproved():
     nothingToDoInARow = 0
     amountOfTriesBeforeSkip = 3
 
-    chestConfidence = 0.6 #0.6 works really good
+    yellowbackgroundConfidence = 0.85
     fh.replaceLineInFile(positions.userconfigFile, fh.getLineNumberFromFile(positions.gamestageFile, "skippedChestCollecting = True;"), "skippedChestCollecting = False;\n") #Resets it
     while counter < maxCount:
         if nothingToDoInARow > amountOfTriesBeforeSkip:
@@ -74,14 +74,25 @@ def collectChestsInMineImproved():
         checkIfOre()
         monsters.checkIfMonster()
         monsters.checkIfFightScreen()
-
-        chestbackgroundcolor = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\smallchestbackgroundcolor.png", confidence = chestConfidence - 0.1, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
+        chestbackgroundcolor = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\smallchestbackgroundcolor.png", confidence = yellowbackgroundConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
 
         if chestbackgroundcolor == None:
             nothingToDoInARow = nothingToDoInARow + 1
         else:
             nothingToDoInARow = 0 #reset counter if no background color was found
-        iterateOverAllMinersMiddleFloor()
+        iterateOverAllMinersOnAFloor(0)
+        monsters.checkIfFightScreen()
+
+        chestbackgroundcolor = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\smallchestbackgroundcolor.png", confidence = yellowbackgroundConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
+
+        print(chestbackgroundcolor)
+
+        if chestbackgroundcolor != None:
+            chestbackgroundcolor = pyautogui.center(chestbackgroundcolor)
+            pyautogui.moveTo(chestbackgroundcolor)
+            time.sleep(6)
+            print("Yellow background detected below middle floor")
+            collectChestBelowMiddle()
         counter = counter + 1
         print("Collecting chests from mine: " + str(counter + 1) + "/" + str(maxCount))
         print("Nothing to do count: " + str(nothingToDoInARow) + "/" + str(amountOfTriesBeforeSkip))
@@ -168,7 +179,7 @@ def collectChestsInMineWithImageRecognition():
             nothingToDoInARow = nothingToDoInARow + 1 #Did not find a a chest
             if chestbackgroundcolor != None: #Found yellow background
                 print("Did not find chest on screen, but detected yellow background.")
-                iterateOverAllMinersMiddleFloor()
+                iterateOverAllMinersOnAFloor()
         print("Collecting chests from mine: " + str(counter + 1) + "/" + str(maxCount))
         print("Nothing to do count: " + str(nothingToDoInARow - 1) + "/" + str(amountOfTriesBeforeSkip))
         counter = counter + 1
@@ -183,14 +194,58 @@ def collectChestsInMineOldVersion():
     while counter < maxCount:
         keyboard.press_and_release('space')
         time.sleep(positions.defaultDelay)
-        iterateOverAllMinersMiddleFloor()
+        iterateOverAllMinersOnAFloor()
         print("Collecting chests from mine: " + str(counter + 1) + "/" + str(maxCount))
         counter = counter + 1
 
-def iterateOverAllMinersMiddleFloor():
-    keyboard.press("left shift")
-    for everyMiner in range(len(positions.minerPosistionList)):
-        time.sleep(positions.defaultDelay)
-        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.minerPosistionList[everyMiner], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.minerYpositionMiddleLevel, positions.currentResolution[1], positions.originalResolution[1]))
-        mouseAndKeyboard.clickMouse()
-    keyboard.release("left shift")
+def iterateOverAllMinersOnAFloor(modifier):
+
+    '''
+    Modifier can be 0\n
+    If 0 then scans middle floor\n
+
+    ------
+    ------
+    XXXXXX
+    ------\n
+    ------\n
+
+    If modifier = 200
+    then goes up one level
+
+    ------
+    XXXXXX
+    ------
+    ------
+    ------
+
+    If modifier = -200
+    then goes down one level
+
+    ------
+    ------
+    ------
+    XXXXXX
+    ------
+
+    '''
+
+    try:
+        keyboard.press("left shift")
+        for everyMiner in range(len(positions.minerPosistionList)):
+            time.sleep(positions.defaultDelay)
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.minerPosistionList[everyMiner], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.minerYpositionMiddleLevel - modifier, positions.currentResolution[1], positions.originalResolution[1]))
+            mouseAndKeyboard.clickMouse()
+        keyboard.release("left shift")
+    except:
+        keyboard.release("left shift") # should fix left shift getting stuck if causing an interrupt
+
+def collectChestBelowMiddle():
+
+    '''
+    Function must be placed after it has checked once and 'tried' to collect chest.\n
+    If yellow background is still there it means it's below middle level.\n
+    '''
+
+    for i in range(1, 3):
+        iterateOverAllMinersOnAFloor(i * -200)
