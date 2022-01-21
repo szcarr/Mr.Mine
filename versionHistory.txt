@@ -1,0 +1,43 @@
+-=V 1.0 TBC=-
+
+=?=New Features=?=
+
+Added automatic trading.
+    *Trading seems to be profitable in the long run
+    *User has to enable trading in >> src/cfg/user/userconfig.txt
+    *Change: tradingEnabled = False; >> tradingEnabled = True;
+    
+Automated caves.
+    *Collects items furthest to the right in the cave first
+    *Only uses basic drones
+    *Advanced filtering
+
+Added rain shower detection.
+    *Checks after each chest in mine
+    *Checks after collecting items from caves
+
+Added an imporoved method of chest collecting from metal detector.
+Added fast collecting of chests in mine.
+
+=?=Adjustments=?=
+Adjusted fish ore confidence.
+Adjusted reactor values.
+Monster fight loop 16 => 17.
+Adjusted ticket usage.
+Now crafts the most valuable fuel rods first as it makes more sense.
+
+=?=Fixes=?=
+Fixed metaldetector.
+    *Values for collecting gold chests are now the correct ones
+
+-=V 0.9 13/01/2022=-
+Automated the reactor.
+    *Crafts the best tier fuel rods
+    *Only collects a used rod if you have the same rod in storage (Does only the highest tier fuel rods)
+
+Adjusted some values for better flow of program.
+    *Monster fight loop 15 => 16
+    *Changed safescreen area for excavations
+
+-=V 0.8=-
+Now collects resources below middle floor on the screen.

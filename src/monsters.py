@@ -45,9 +45,11 @@ def checkIfMonster():
             break
     if not foundMonster:
         print("Did not find any monsters.")
+        
+    return foundMonster
 
 def checkIfFightScreen():
-    battle = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monsterbattlescreen.png", confidence = 0.8)
+    battle = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\monsterbattlescreen.png", confidence = 0.81) #CONFIDENCE = 0.8 IS REALLY GOOD
     if battle != None:
         print("Found fightscreen")
         fightMonster()
@@ -55,7 +57,7 @@ def checkIfFightScreen():
         print("Found no fightscreen")
 
 def fightMonster():
-    for i in range(15): #Might need adjustment
+    for i in range(17): #Might need adjustment
                 for x in range(len(positions.allRows)):
                     for y in range(len(positions.allRows[x])):
                         pyautogui.failSafeCheck()

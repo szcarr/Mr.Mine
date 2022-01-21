@@ -1,3 +1,5 @@
-{Mr.Mine script by szcarr Version 0.7}
+{Mr.Mine script by szcarr Version 1.0}
+[General]
+skippedChestCollecting = False;
 [Gem Forge]
-startCraftingFromRedGems = False;
+startCraftingFromRedGems = True;

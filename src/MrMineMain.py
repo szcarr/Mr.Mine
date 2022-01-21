@@ -1,8 +1,5 @@
 import pyautogui
-import keyboard
-import time
 
-import MrMineMath
 import cave
 import bufflab
 import mineFloors
@@ -10,6 +7,8 @@ import gemCrafting
 import excavtions
 import metalDetector
 import sellMinerals
+import reactor
+import trading
 
 pyautogui.FAILSAFE = True
 
@@ -22,19 +21,22 @@ amountOfChestsToBeClicked = 10
 
 def doAutoEverythingBySequence():
     #Main
+    firstRun = True
     while True:
-        mineFloors.collectChestsInMineImproved()
+        reactor.reactorMain()
         gemCrafting.craftGems(amountOfGemsToCraft)
+        trading.trade()
+        excavtions.scientists()
+        mineFloors.miningMain()
+        cave.doCaves()
+        gemCrafting.craftGems(amountOfGemsToCraft)
+        trading.trade()
         excavtions.scientists()
         sellMinerals.sellMinerals()
-        metalDetector.collectNormalChestsFromMetalDetector()
-        metalDetector.collectGoldChestsFromMetalDetector()
+        
+        metalDetector.metalDetectorMain()
         gemCrafting.craftGems(amountOfGemsToCraft)
         excavtions.scientists()
         cave.collectCaveItems(amountOfChestsToBeClicked)
         bufflab.buffLab()
         sellMinerals.sellMinerals() #Do things before selling
-
-'''
--------------------------MAIN PROGRAM-------------------------
-'''

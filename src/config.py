@@ -1,13 +1,15 @@
 import fileHandling
 import positionsAndResolution
 
+#CHANGE FROM READ ONLY https://stackoverflow.com/questions/28492685/change-file-to-read-only-mode-in-python
+
 fh = fileHandling
 positions = positionsAndResolution.positions
 
 pathToCurrentDir = fh.getPathToCurrentDir()
 splitBy = fh.detectOS()
 
-programVersion = 0.8
+programVersion = 1.0
 
 print(pathToCurrentDir)
 
@@ -43,6 +45,9 @@ def initialize():
             fh.addTextToSpecifiedFile(positions.userconfigFile, "[Metal Detector]\n") #Dont know
             fh.addTextToSpecifiedFile(positions.userconfigFile, "compressToGoldChest = False;\n") #Dpnt know
 
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "[Trading]\n")
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "tradingEnabled = False;\n")
+
             #Adding values to gamestage.txt
             fh.addTextToSpecifiedFile(positions.gamestageFile, "{Mr.Mine script by szcarr Version " + str(programVersion) + "}\n")
 
@@ -56,4 +61,5 @@ def initialize():
         print("Error creating file. File already exists.")
 
 def deleteCFGdir():
+
     fh.removeFile(pathToCurrentDir + "cfg")

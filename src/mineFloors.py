@@ -1,3 +1,4 @@
+from cmath import e
 import time
 import pyautogui
 import keyboard
@@ -27,14 +28,18 @@ lowerThreeLeftYValue = int(MrMineMath.convertToCurrentResolutionPosition(positio
 lowerThreeTopRightXValue = int(MrMineMath.convertToCurrentResolutionPosition(positions.lowerThreeRowsTopRight[0], positions.currentResolution[1], positions.originalResolution[1]))
 lowerThreeLeftXValue = int(MrMineMath.convertToCurrentResolutionPosition(positions.lowerThreeRowsTopRight[1], positions.currentResolution[1], positions.originalResolution[1]))
 
+def miningMain():
+    pass
+    collectChestsInMineImproved()
+
 def checkIfOre():
     print("Checking for ores...")
     oreConfidence = 0.85
 
-    siliconPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\siliconore.png", confidence = oreConfidence)
+    siliconPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\siliconore.png", confidence = oreConfidence - 0.01)
     magnesiumPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\magnesiumore.png", confidence = oreConfidence)
     titaniumPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\titaniumore.png", confidence = oreConfidence)
-    fishPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\fishore.png", confidence = oreConfidence)
+    fishPosition = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\fishore.png", confidence = oreConfidence - 0.05)
 
     oreList = [siliconPosition, magnesiumPosition, titaniumPosition, fishPosition]
     foundOre = False
@@ -51,6 +56,8 @@ def checkIfOre():
     if not foundOre:
         print("Did not find any ores.")
 
+    return foundOre
+
 def collectChestsInMineImproved():
     #Main
     print("Checking for chests...")
@@ -62,18 +69,23 @@ def collectChestsInMineImproved():
     amountOfTriesBeforeSkip = 3
 
     yellowbackgroundConfidence = 0.85
-    fh.replaceLineInFile(positions.userconfigFile, fh.getLineNumberFromFile(positions.gamestageFile, "skippedChestCollecting = True;"), "skippedChestCollecting = False;\n") #Resets it
+    fh.replaceLineInFile(positions.userconfigFile, fh.getLineNumberFromFile(positions.gamestageFile, "skippedChestCollecting = True;"), "skippedChestCollecting = False;") #Resets it
     while counter < maxCount:
         if nothingToDoInARow > amountOfTriesBeforeSkip:
-            fh.replaceLineInFile(positions.userconfigFile, fh.getLineNumberFromFile(positions.gamestageFile, "skippedChestCollecting = False;"), "skippedChestCollecting = True;\n") #If nothing to do then skips
+            fh.replaceLineInFile(positions.userconfigFile, fh.getLineNumberFromFile(positions.gamestageFile, "skippedChestCollecting = False;"), "skippedChestCollecting = True;") #If nothing to do then skips
             print("Nothing to do so skipping.")
             break
         pyautogui.failSafeCheck()
+        checkIfRainShower()
         keyboard.press_and_release('space')
-        time.sleep(positions.defaultDelay)
-        checkIfOre()
-        monsters.checkIfMonster()
+        time.sleep(1)
+        foundOre = checkIfOre()
+        if foundOre:
+            continue #Skips most likely only one thing on floor skipping for better performance
+        foundMonster = monsters.checkIfMonster()
         monsters.checkIfFightScreen()
+        if foundMonster:
+            continue #Skips most likely only one thing on floor skipping for better performance
         chestbackgroundcolor = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\smallchestbackgroundcolor.png", confidence = yellowbackgroundConfidence, region=(lowerThreeLeftXValue, lowerThreeLeftYValue, lowerThreeTopRightXValue, lowerThreeLeftXValue))            
 
         if chestbackgroundcolor == None:
@@ -248,4 +260,36 @@ def collectChestBelowMiddle():
     '''
 
     for i in range(1, 3):
-        iterateOverAllMinersOnAFloor(i * -200)
+        iterateOverAllMinersOnAFloor(i * - 200)
+
+def fastCollectChest():
+    generalFunctions.goToMrMineScreen()
+    amountOfIterations = 30
+    for i in range(amountOfIterations):
+        try:
+            print("Fast collecting: " + str(i) + "/" + str(amountOfIterations))
+            keyboard.press_and_release('space')
+            keyboard.press("left shift")
+            for everyMiner in range(len(positions.minerPosistionList)):
+                pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.minerPosistionList[everyMiner], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.minerYpositionMiddleLevel, positions.currentResolution[1], positions.originalResolution[1]))
+                mouseAndKeyboard.clickMouse()
+            keyboard.release("left shift") # should fix left shift getting stuck if causing an interrupt
+        except KeyboardInterrupt:
+            keyboard.release("left shift")
+        except Exception as e:
+            print(e)
+            keyboard.release("left shift")
+
+def checkIfRainShower():
+    print("Checking for rain shower buff.")
+    mouseAndKeyboard.pressButton('esc')
+    generalFunctions.goToMrMineScreen()
+    generalFunctions.goToSafeClickArea()
+    rainShowerConfidence = 0.8 #NEEDS TESTIONG
+    rainShower = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\goldchest2.png", confidence = rainShowerConfidence)
+    if rainShower:
+        print("Detected rain shower!")
+        fastCollectChest()
+    else:
+        print("No rain shower detected.")
+    mouseAndKeyboard.pressButton('space')

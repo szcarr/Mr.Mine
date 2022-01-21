@@ -4,6 +4,7 @@ import time
 import MrMineMain
 import config
 import setup
+import mineFloors
 
 try:
     config.deleteCFGdir()
@@ -19,10 +20,12 @@ This is the main file
 exitProgram = False
 
 modeList = {
-    "getc": "GetCurrentPosition | Prints current XY value of mouse position | CTRL+C to escape | Syntax: getc",
-    "help": "Help | Prints all legal commands | Syntax: help",
-    "doall": "Automatic Everything | Does everything there is to do in Mr.Mine | Syntax: doall",
-    "exit": "Exit | Exits current program | Syntax: exit"
+    "getc": "getc | Prints current XY value of mouse position | CTRL+C to escape | Syntax: getc",
+    "help": "help | Prints all legal commands | Syntax: help",
+    "doall": "doall | Does everything there is to do in Mr.Mine | Syntax: doall",
+    "exit": "exit | Exits current program | Syntax: exit",
+    "rescfg": "rescfg | Resets config folder | Syntax: rescfg",
+    "fastc": "fastc | Fast collects chest | Syntax: fastc"
 }
 
 '''
@@ -51,8 +54,15 @@ def checkModes(mode):
             exit()
         elif modeList[0] == "doall":
             MrMineMain.doAutoEverythingBySequence()
-    except:
-        print("Error in selecting mode")
+        elif modeList[0] == "rescfg":
+            config.deleteCFGdir()
+            config.initialize()
+        elif modeList[0] == "fastc":
+            mineFloors.fastCollectChest()
+    except KeyboardInterrupt:
+        print("Keyboard interrupt.")
+    except Exception as e:
+        print(e)
 
 def exit():
     global exitProgram
@@ -72,9 +82,17 @@ def printHelp():
         print(str(counter) + ": " + str(modeList.get(key)))
 
 def printCurrentMousePosition():
-    while True:
-        print(pyautogui.position())
-        time.sleep(1)
+    xValue = 0
+    yValue = 0
+    try:
+        while True:
+            xValue = pyautogui.position()[0]
+            yValue = pyautogui.position()[1]
+            print(pyautogui.position())
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("Converted value: " + str(xValue * 0.75) + ", " + str(yValue * 0.75))
+
 '''
 -------------------------MAIN PROGRAM-------------------------
 '''

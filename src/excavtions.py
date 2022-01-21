@@ -30,10 +30,11 @@ scientistsList = [scientistTabOne, scientistTabTwo, scientistTabThree]
 
 def scientists():
     #NOT DONE
+    mouseAndKeyboard.pressButton('esc')
     useTicket.useTickets()
     generalFunctions.goToMrMineScreen()
     time.sleep(positions.defaultDelay)
-    keyboard.press_and_release('k') #GOINNG TO SAFE SCREEN FIRST
+    generalFunctions.goToSafeClickArea() #GOINNG TO SAFE SCREEN FIRST
     time.sleep(positions.defaultDelay)
     keyboard.press_and_release('shift+s')
     time.sleep(positions.defaultDelay)

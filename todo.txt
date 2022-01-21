@@ -1,0 +1,2 @@
+check rainshower confidence
+test node confidence in caves

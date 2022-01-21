@@ -189,7 +189,8 @@ def replaceLineInFile(filePathAndName, lineNumber, lineToAdd):
 def stringInFileExists(filePathAndName, stringToSearchFor):
 
     '''
-    Returns true if stringToSearchFor exists the given file
+    Returns true if stringToSearchFor exists the given file.\n
+    Removes linebreak so stringToSearchFor should not contain linebreak.
     '''
 
     file = readTXTFile(filePathAndName)

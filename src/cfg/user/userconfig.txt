@@ -1,10 +1,11 @@
-{Mr.Mine script by szcarr Version 0.7}
+{Mr.Mine script by szcarr Version 1.0}
 [General]
-amountOfChestsToBeClicked = 10;
+skippedChestCollecting = True;
 goldchestDetection = False;
 hasInstalledModules = True;
-
 [Excavations]
 chooseHardDifficulty = False;
 [Metal Detector]
 compressToGoldChest = False;
+[Trading]
+tradingEnabled = True;

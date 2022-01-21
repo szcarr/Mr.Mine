@@ -13,4 +13,4 @@ def downloadDependencies():
         os.system("pip install pyautogui")
         os.system("pip install opencv-python")
         os.system("pip install Pillow")
-        fh.replaceLineInFile(positions.userconfigFile, fh.getLineNumberFromFile(positions.userconfigFile, stringToLookFor), "hasInstalledModules = True;\n")
+        fh.replaceLineInFile(positions.userconfigFile, fh.getLineNumberFromFile(positions.userconfigFile, stringToLookFor), "hasInstalledModules = True;")
