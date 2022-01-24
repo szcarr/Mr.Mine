@@ -5,11 +5,9 @@ import MrMineMain
 import config
 import setup
 import mineFloors
+import cave
+import metalDetector
 
-try:
-    config.deleteCFGdir()
-except:
-    pass
 config.initialize()
 setup.downloadDependencies()
 
@@ -25,7 +23,9 @@ modeList = {
     "doall": "doall | Does everything there is to do in Mr.Mine | Syntax: doall",
     "exit": "exit | Exits current program | Syntax: exit",
     "rescfg": "rescfg | Resets config folder | Syntax: rescfg",
-    "fastc": "fastc | Fast collects chest | Syntax: fastc"
+    "fastc": "fastc | Fast collects chest | Syntax: fastc",
+    "docaves": "docaves | Does cave | Syntax: docaves",
+    "domtld": "domtld | Collects all chests from metal detector | Syntax: domtld"
 }
 
 '''
@@ -54,11 +54,15 @@ def checkModes(mode):
             exit()
         elif modeList[0] == "doall":
             MrMineMain.doAutoEverythingBySequence()
+        elif modeList[0] == "docaves":
+            cave.doCaves()
+        elif modeList[0] == "domtld":
+            metalDetector.metalDetectorMain(200)
         elif modeList[0] == "rescfg":
             config.deleteCFGdir()
             config.initialize()
         elif modeList[0] == "fastc":
-            mineFloors.fastCollectChest()
+            mineFloors.fastCollectChest(45)
     except KeyboardInterrupt:
         print("Keyboard interrupt.")
     except Exception as e:

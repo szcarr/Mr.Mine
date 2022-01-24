@@ -1,5 +1,5 @@
 import pyautogui
-import random
+import keyboard
 import time
 
 import mouseAndKeyboard
@@ -16,28 +16,24 @@ makeTradeLowerOption = 1206, 700
 
 amountOfTraders = 2
 
-forRange = 300
+forRange = round(positions.currentResolution[1] / 100 * 30)
 
 def trade():
-    if fh.stringInFileExists(positions.userconfigFile, "tradingEnabled = True;"):
-        print("Trading.")
-        generalFunctions.goToMrMineScreen()
-        mouseAndKeyboard.pressButton('esc')
-        for i in range(amountOfTraders):
-            mouseAndKeyboard.pressButton('t')
-            if random.randint(0,100) > 50:
-                print("Selecting upper trade.")
-                for i in range(0, forRange, round(500/100 * 10)):
+    try:
+        if fh.stringInFileExists(positions.userconfigFile, "tradingEnabled = True;"):
+            print("Trading.")
+            generalFunctions.goToMrMineScreen()
+            mouseAndKeyboard.pressButton('esc')
+            for i in range(amountOfTraders):
+                mouseAndKeyboard.pressButton('t')
+                keyboard.press('left shift')
+                for i in range(0, forRange, round(500/100 * 8)):
                     pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(makeTradeUpperOption[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(makeTradeUpperOption[1] + i, positions.currentResolution[1], positions.originalResolution[1]))
                     time.sleep(0.03)
                     mouseAndKeyboard.clickMouse()
-            else:
-                print("Selecting lower trade.")
-                for i in range(0, forRange, round(500/100 * 10)):
-                    pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(makeTradeLowerOption[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(makeTradeLowerOption[1] + i, positions.currentResolution[1], positions.originalResolution[1]))
-                    time.sleep(0.03)
-                    mouseAndKeyboard.clickMouse()
-            
-        mouseAndKeyboard.pressButton('esc')
-    
-#trade()
+                keyboard.release('left shift')
+            mouseAndKeyboard.pressButton('esc')
+    except Exception as e:
+        print(e)
+    finally:
+        keyboard.release('left shift')

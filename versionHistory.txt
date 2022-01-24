@@ -3,9 +3,8 @@
 =?=New Features=?=
 
 Added automatic trading.
-    *Trading seems to be profitable in the long run
-    *User has to enable trading in >> src/cfg/user/userconfig.txt
-    *Change: tradingEnabled = False; >> tradingEnabled = True;
+    *User can disable trading in >> src/cfg/user/userconfig.txt
+    *Change: tradingEnabled = True; >> tradingEnabled = False;
     
 Automated caves.
     *Collects items furthest to the right in the cave first
@@ -17,7 +16,7 @@ Added rain shower detection.
     *Checks after collecting items from caves
 
 Added an imporoved method of chest collecting from metal detector.
-Added fast collecting of chests in mine.
+Added fast collecting of chests in mine. (Is now extremely quick with lvl 5 metal detector)
 
 =?=Adjustments=?=
 Adjusted fish ore confidence.
@@ -26,7 +25,7 @@ Monster fight loop 16 => 17.
 Adjusted ticket usage.
 Now crafts the most valuable fuel rods first as it makes more sense.
 
-=?=Fixes=?=
+=!=Fixes=!=
 Fixed metaldetector.
     *Values for collecting gold chests are now the correct ones
 

@@ -13,7 +13,6 @@ fh = fileHandling
 pathToCurrentDir = fh.getPathToCurrentDir()
 splitBy = fh.detectOS()
 
-
 #Gem station 
 amountOfGemsToCraft = 5
 
@@ -24,6 +23,10 @@ purpleGem = 726, 760
 yellowGem = 959, 760
 
 gemList = [redGem, blueGem, greenGem, purpleGem, yellowGem]
+
+def craftGemsMain():
+
+    pass
 
 def craftGems(amountOfGemSlots):
     generalFunctions.goToMrMineScreen()
@@ -36,7 +39,7 @@ def craftGems(amountOfGemSlots):
         3: "Purple gem",
         4: "Yellow gem"
     }
-    
+
     gamestageFile = pathToCurrentDir + "cfg" + splitBy + "gamestage" + splitBy + "gamestage.txt"
 
     file = fh.readTXTFile(gamestageFile)
@@ -61,6 +64,22 @@ def craftGems(amountOfGemSlots):
             incrementBy = -1
             stopPoint = -1
             fh.replaceLineInFile(gamestageFile, fh.getLineNumberFromFile(gamestageFile, "startCraftingFromRedGems = False;"), "startCraftingFromRedGems = True;")
+    
+    userSpecifiedWhatGemToCraft = False
+
+    try:
+        if fh.stringInFileExists(positions.userconfigFile, "startFromIndex = -1;") != True:
+            print("hei")
+            userconfig = fh.readTXTFile(positions.userconfigFile)
+            for line in userconfig:
+                splitList = str(line).split(" = ")
+                if splitList[0] == "startFromIndex":
+                    userSpecifiedWhatGemToCraft = True
+                    newList = splitList[1].split(";")
+                    startPoint = int(newList[0])
+                    amountOfGemSlots = 40
+    except Exception as e:
+        print(e)
 
     for i in range(startPoint, stopPoint, incrementBy):
         time.sleep(positions.defaultDelay)
@@ -68,3 +87,5 @@ def craftGems(amountOfGemSlots):
         for x in range(amountOfGemSlots):
             print("Crafting " + str(gemMode.get(i)) + " " + str(x + 1) + "/" + str(amountOfGemSlots))
             mouseAndKeyboard.clickMouse()
+        if userSpecifiedWhatGemToCraft:
+            break

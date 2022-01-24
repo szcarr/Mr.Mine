@@ -57,7 +57,7 @@ def doCaves():
             if noFuelInCave:
                 break
             node = caveColorList[allCaveColors]
-            isCave = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\cave\\" + node + "detectcave.png", confidence = 0.8) #Checks if previous click actually clicked in on a cave
+            isCave = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\cave\\" + node + "detectcave.png", confidence = 0.7) #Checks if previous click actually clicked in on a cave
             print("Checking if in a " + node + " cave.")
             if isCave != None:
                 print("Detected that it has clicked in a " + node + " cave.")
@@ -75,11 +75,13 @@ def doCaves():
                     print("Scrolling towards the 'entrance' of the cave")
                     allThingsInCave = []
                     for a in range(len(allNodes)): #For all types poi in cave
+                        pyautogui.failSafeCheck()
                         crossout = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir() + "images\\cave\\xoutofsenddrone.png"), confidence = 0.8)
                         if crossout:
                             print("Crossing out")
                             pyautogui.moveTo(pyautogui.center(crossout))
                             mouseAndKeyboard.clickMouse()
+                        pyautogui.moveTo(positions.currentResolution[0] * 0.50, positions.currentResolution[1] * 0.65)
                         time.sleep(0.5)
                         node = allNodes[a]
                         print(node)
@@ -103,8 +105,8 @@ def doCaves():
                         #print(filteredNodes)
                         #time.sleep(30)
                         for p in range(len(filteredNodes)): #For all cavenodes in that specific cave
-                            if p == 7:
-                                break
+                            #if p == 7:
+                                #break
                             #print("Found " + node) #Inaccurate
                             pyautogui.moveTo(pyautogui.center(filteredNodes[p]))
                             print(filteredNodes[p])
@@ -173,7 +175,7 @@ def filterByLargestXValue(inputListe):
                 yValueOfX = inputListe[y][1]
                 wValueOfX = inputListe[y][2]
                 hValueOfX = inputListe[y][3]
-            print(largestXValueNow)
+            #print(largestXValueNow)
         xyListe.append(largestXValueNow)
         xyListe.append(yValueOfX)
         xyListe.append(wValueOfX)

@@ -8,6 +8,7 @@ import mouseAndKeyboard
 import positionsAndResolution
 import useTicket
 import fileHandling
+import mineFloors
 
 positions = positionsAndResolution.positions
 fh = fileHandling
@@ -28,8 +29,118 @@ scientistForfeitRewardYesButton = 969, 200
 scientistCancelTicketPurchase = 970, 229
 scientistsList = [scientistTabOne, scientistTabTwo, scientistTabThree]
 
-def scientists():
+itemsToLookFor = ["book_of_secrets", "book_of_success", "book_of_time"]
+
+rightChoiceRegion = (957, 271, 459, 544)
+leftChoiceRegion = (489, 271, 459, 544)
+
+choiceListRegion = [rightChoiceRegion, leftChoiceRegion]
+
+def excavationsMain():
+    smarterScientists()
+
+def smarterScientists():
     #NOT DONE
+    mouseAndKeyboard.pressButton('esc')
+    useTicket.useTickets()
+    generalFunctions.goToMrMineScreen()
+    time.sleep(positions.defaultDelay)
+    generalFunctions.goToSafeClickArea() #GOINNG TO SAFE SCREEN FIRST
+    time.sleep(positions.defaultDelay)
+    keyboard.press_and_release('shift+s')
+    time.sleep(positions.defaultDelay)
+    textString = "Collecting rewards from scientists "
+
+    gamestageFile = pathToCurrentDir + "cfg" + splitBy + "user" + splitBy + "userconfig.txt"
+
+    file = fh.readTXTFile(gamestageFile)
+
+    fileOutput = []
+
+    for line in file:
+        fileOutput = line.split("\n")
+
+    hardExcavations = False
+
+    for outputString in fileOutput:
+        if outputString == "chooseHardDifficulty = True;":
+            hardExcavations = True
+
+    for y in range(len(scientistsList)):
+        print("Setting up scientist: " + str(y + 1))
+        pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistsList[y][0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistsList[y][1], positions.currentResolution[1], positions.originalResolution[1]))
+        mouseAndKeyboard.clickMouse()
+        for x in range(2):#amount of scientists
+            #print(textString + str(x + 1) + "/" + str(len(scientistsList)) + "...")
+
+            # IMAGE RECOGNITION HERE
+            canBreak = False
+            for r in range(len(choiceListRegion)):
+                if canBreak:
+                    break
+                regionChoice = choiceListRegion[r]
+                imageConfidence = 0.8
+                for i in range(len(itemsToLookFor)):
+                    if canBreak:
+                        break
+                    image = itemsToLookFor[i]
+                    if r < 1:
+                        whatRegionWasFound = "right"
+                    else:
+                        whatRegionWasFound = "left"
+                    print("Looking for " + image + " in " + whatRegionWasFound)
+                    foundImage = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\excavations\\" + image + ".png", confidence = imageConfidence, region = regionChoice) #region = (leftChoiceRegion[0], leftChoiceRegion[1], leftChoiceRegion[2], leftChoiceRegion[3])
+                    if foundImage:
+                        whatRegionWasFound = ""
+                        canBreak = True
+                        if r < 1:
+                            whatRegionWasFound = "right"
+                            hardExcavations = True
+                        else:
+                            whatRegionWasFound = "left"
+                            hardExcavations = False
+                        print("Found " + image + " in " +  whatRegionWasFound + " region.")
+                    else:
+                        print("Did not find " + image + " in " + whatRegionWasFound + " region. For scientist " + str(y + 1) + ".")
+
+            if hardExcavations:
+                pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1], positions.currentResolution[1], positions.originalResolution[1]))
+                time.sleep(positions.defaultDelay)
+                mouseAndKeyboard.clickMouse()
+                time.sleep(positions.defaultDelay)
+            else:
+                pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistEasyDifficulty[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistEasyDifficulty[1], positions.currentResolution[1], positions.originalResolution[1]))
+                time.sleep(positions.defaultDelay)
+                mouseAndKeyboard.clickMouse()
+                time.sleep(positions.defaultDelay)
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistCollectButton[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistCollectButton[1], positions.currentResolution[1], positions.originalResolution[1]))
+            time.sleep(positions.defaultDelay)
+            mouseAndKeyboard.clickMouse()
+            time.sleep(positions.defaultDelay)
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistRelicInvetoryFullOkButton[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistRelicInvetoryFullOkButton[1], positions.currentResolution[1], positions.originalResolution[1]))
+            time.sleep(positions.defaultDelay)
+            mouseAndKeyboard.clickMouse()
+            time.sleep(positions.defaultDelay)
+            generalFunctions.clickChestInMiddleOfScreen()
+            time.sleep(positions.defaultDelay)
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistForfeitReward[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistForfeitReward[1], positions.currentResolution[1], positions.originalResolution[1]))
+            time.sleep(positions.defaultDelay)
+            mouseAndKeyboard.clickMouse()
+            time.sleep(positions.defaultDelay)
+            pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistForfeitRewardYesButton[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistForfeitRewardYesButton[1], positions.currentResolution[1], positions.originalResolution[1]))
+            time.sleep(positions.defaultDelay)
+            mouseAndKeyboard.clickMouse()
+            #next is forfeiting
+    time.sleep(positions.defaultDelay)
+    pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistCancelTicketPurchase[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistCancelTicketPurchase[1], positions.currentResolution[1], positions.originalResolution[1]))
+    time.sleep(positions.defaultDelay)
+    mouseAndKeyboard.clickMouse()
+    time.sleep(positions.defaultDelay)
+    mouseAndKeyboard.pressButton('esc')
+    mineFloors.checkIfRainShower()
+
+def scientists():
+    #WORKS BUT OLDER VERSION
     mouseAndKeyboard.pressButton('esc')
     useTicket.useTickets()
     generalFunctions.goToMrMineScreen()
@@ -98,3 +209,6 @@ def scientists():
     mouseAndKeyboard.clickMouse()
     time.sleep(positions.defaultDelay)
     mouseAndKeyboard.pressButton('esc')
+    mineFloors.checkIfRainShower()
+
+#smarterScientists()

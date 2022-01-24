@@ -110,7 +110,7 @@ class positions:
     allRows = [firstRow, secondRow, thirdRow, forthRow]
 
     #Chests
-    amountOfChestsToBeClicked = 5
+    amountOfChestsToBeClicked = 10
 
 
 def convertValuesFromNewScreenToOld(x, y):

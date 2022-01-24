@@ -167,6 +167,9 @@ def getLineNumberFromFile(filePathAndName, stringToSearchFor):
     
     return lineNumberList
 
+def getSingleLineFromFile(filePathAndName, lineIndex):
+    pass
+
 def replaceLineInFile(filePathAndName, lineNumber, lineToAdd):
 
     '''
@@ -177,7 +180,6 @@ def replaceLineInFile(filePathAndName, lineNumber, lineToAdd):
 
     document = readTXTFile(filePathAndName)
     lineToAdd = lineToAdd + "\n"
-    print(lineToAdd)
     for i in range(len(lineNumber)):
         document[lineNumber[i]] = lineToAdd
     

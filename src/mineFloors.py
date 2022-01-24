@@ -43,6 +43,7 @@ def checkIfOre():
 
     oreList = [siliconPosition, magnesiumPosition, titaniumPosition, fishPosition]
     foundOre = False
+
     for i in range(len(oreList)):
         pyautogui.failSafeCheck()
         if oreList[i] != None:
@@ -262,7 +263,27 @@ def collectChestBelowMiddle():
     for i in range(1, 3):
         iterateOverAllMinersOnAFloor(i * - 200)
 
-def fastCollectChest():
+def fastCollectChest(*args):
+    generalFunctions.goToMrMineScreen()
+    generalFunctions.goToSafeClickArea()
+    amountOfIterations = 30
+    pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(positions.minerPosistionList[4] - positions.currentResolution[0] / 100 * 3, positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(positions.minerYpositionMiddleLevel, positions.currentResolution[1], positions.originalResolution[1]))
+    if args:
+        amountOfIterations = args[0]
+    for i in range(amountOfIterations):
+        try:
+            print("Fast collecting: " + str(i) + "/" + str(amountOfIterations))
+            keyboard.press_and_release('space')
+            keyboard.press("left shift")
+            mouseAndKeyboard.clickMouse()
+            keyboard.release("left shift") # should fix left shift getting stuck if causing an interrupt
+        except KeyboardInterrupt:
+            keyboard.release("left shift")
+        except Exception as e:
+            print(e)
+            keyboard.release("left shift")
+
+def fastCollectChestOld():
     generalFunctions.goToMrMineScreen()
     amountOfIterations = 30
     for i in range(amountOfIterations):
@@ -285,11 +306,15 @@ def checkIfRainShower():
     mouseAndKeyboard.pressButton('esc')
     generalFunctions.goToMrMineScreen()
     generalFunctions.goToSafeClickArea()
-    rainShowerConfidence = 0.8 #NEEDS TESTIONG
-    rainShower = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\mine\\goldchest2.png", confidence = rainShowerConfidence)
+    rainShowerConfidence = 0.7 #0.7 works
+    time.sleep(0.5)
+    rainShower = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\general\\rainingchest.png", confidence = rainShowerConfidence)
     if rainShower:
+        print(rainShower)
         print("Detected rain shower!")
-        fastCollectChest()
+        fastCollectChest(150)
     else:
         print("No rain shower detected.")
     mouseAndKeyboard.pressButton('space')
+
+#checkIfOre()
