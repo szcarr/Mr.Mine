@@ -5,17 +5,21 @@ The game needs to run on your main monitor. Else it will not click on Mr.Mine ga
 
 The program automates currently these things:
 
+    *Automated caving
+
     *Automated chest collecting in the mine
 
     *Automated chest collecting from the metal detector
 
+    *Automated excavations, collecting rewards, burying and forfeiting rewards.
+    
     *Automated gem crafting
 
     *Automated selling of minerals
     
-    *Automated excavations, collecting rewards, burying and forfeiting rewards.
-    
     *Automated ticket usage (Spends tickets on chests)
+    
+    *Automated trading
 
 More coming in the future
 
