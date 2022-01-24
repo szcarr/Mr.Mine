@@ -2,4 +2,4 @@
 [General]
 skippedChestCollecting = False;
 [Gem Forge]
-startCraftingFromRedGems = False;
+startCraftingFromRedGems = True;

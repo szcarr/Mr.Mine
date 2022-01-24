@@ -59,7 +59,7 @@ def lookForAndPlaceFuelRods():
     fuelrodConfidence = 0.86
     inventoryConfidence = 0.7
 
-    fuelRodList = ["red", "green", "blue", "gray" "purple"]
+    fuelRodList = ["red", "green", "blue", "gray", "purple"]
 
     for i in range(len(fuelRodList)):
         generalFunctions.goToMrMineScreen()
