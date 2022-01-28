@@ -21,7 +21,7 @@ caveScreenRegionDynamic = ( round(MrMineMath.convertToCurrentResolutionPosition(
                             round(MrMineMath.convertToCurrentResolutionPosition(caveScreenRegion[3], positions.currentResolution[1], positions.originalResolution[1])),
 )
 
-print(caveScreenRegionDynamic)
+#print(caveScreenRegionDynamic)
 
 def collectCaveItems(amountOfChestsToBeClicked):
     generalFunctions.goToMrMineScreen()
@@ -42,7 +42,7 @@ def doCaves():
     caveTab = 971, 276
     caveColorList = ["red", "blue"]
     allNodes = ["rednodeundiscovered", "bluenodeundiscovered", "redtools", "bluetools", "chest", "goldchest", "redclock", "blueclock", "redmoneybag", "bluemoneybag", "redbuff", "bluebuff"]
-    for potentialCaves in range(3):
+    for potentialCaves in range(4):
         noFuelInCave = False
         generalFunctions.goToMrMineScreen()
         mouseAndKeyboard.pressButton('k')

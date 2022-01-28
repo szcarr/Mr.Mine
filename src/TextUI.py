@@ -1,5 +1,6 @@
 import pyautogui
 import time
+from MrMineFunctions import buffLab
 
 import MrMineMain
 import config
@@ -7,6 +8,9 @@ import setup
 import mineFloors
 import cave
 import metalDetector
+import gemCrafting
+import sellMinerals
+import bufflab
 
 config.initialize()
 setup.downloadDependencies()
@@ -25,7 +29,9 @@ modeList = {
     "rescfg": "rescfg | Resets config folder | Syntax: rescfg",
     "fastc": "fastc | Fast collects chest | Syntax: fastc",
     "docaves": "docaves | Does cave | Syntax: docaves",
-    "domtld": "domtld | Collects all chests from metal detector | Syntax: domtld"
+    "domtld": "domtld | Collects all chests from metal detector | Syntax: domtld",
+    "gc": "gc | Crafts gems | Syntax: gc",
+    "s": "s | Sell minerals | Syntax: s"
 }
 
 '''
@@ -57,12 +63,17 @@ def checkModes(mode):
         elif modeList[0] == "docaves":
             cave.doCaves()
         elif modeList[0] == "domtld":
+            bufflab.clickOneBuff(bufflab.lowestTierNuggetOfAttraction)
             metalDetector.metalDetectorMain(200)
         elif modeList[0] == "rescfg":
             config.deleteCFGdir()
             config.initialize()
         elif modeList[0] == "fastc":
-            mineFloors.fastCollectChest(45)
+            mineFloors.fastCollectChest(55)
+        elif modeList[0] == "gc":
+            gemCrafting.craftGemsMain()
+        elif modeList[0] == "s":
+            sellMinerals.sellMinerals()
     except KeyboardInterrupt:
         print("Keyboard interrupt.")
     except Exception as e:

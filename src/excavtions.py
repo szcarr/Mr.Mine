@@ -31,10 +31,24 @@ scientistsList = [scientistTabOne, scientistTabTwo, scientistTabThree]
 
 itemsToLookFor = ["book_of_secrets", "book_of_success", "book_of_time"]
 
-rightChoiceRegion = (957, 271, 459, 544)
-leftChoiceRegion = (489, 271, 459, 544)
+confidenceOfItems = {
+    "book_of_secrets": 0.7,
+    "book_of_success": 0.7,
+    "book_of_time": 0.7,
+}
 
+#-----------------1920x1080
+rightChoiceValues = (957, 271, 459, 544)
+leftChoiceValues = (489, 271, 459, 544)
+
+rightChoiceRegion = (round(MrMineMath.convertToCurrentResolutionPosition(rightChoiceValues[0], positions.currentResolution[0], positions.originalResolution[0])), round(MrMineMath.convertToCurrentResolutionPosition(rightChoiceValues[1], positions.currentResolution[1], positions.originalResolution[1])), round(MrMineMath.convertToCurrentResolutionPosition(rightChoiceValues[2], positions.currentResolution[0], positions.originalResolution[0])), round(MrMineMath.convertToCurrentResolutionPosition(rightChoiceValues[3], positions.currentResolution[1], positions.originalResolution[1])))
+leftChoiceRegion = (round(MrMineMath.convertToCurrentResolutionPosition(leftChoiceValues[0], positions.currentResolution[0], positions.originalResolution[0])), round(MrMineMath.convertToCurrentResolutionPosition(leftChoiceValues[1], positions.currentResolution[1], positions.originalResolution[1])), round(MrMineMath.convertToCurrentResolutionPosition(leftChoiceValues[2], positions.currentResolution[0], positions.originalResolution[0])), round(MrMineMath.convertToCurrentResolutionPosition(leftChoiceValues[3], positions.currentResolution[1], positions.originalResolution[1])))
+
+#print(leftChoiceRegion)
 choiceListRegion = [rightChoiceRegion, leftChoiceRegion]
+
+#foundImage = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\excavations\\" + "book_of_secrets" + ".png", confidence = confidenceOfItems.get("book_of_secrets"), region = rightChoiceRegion)#region = rightChoiceRegion
+#print(foundImage)
 
 def excavationsMain():
     smarterScientists()
@@ -67,6 +81,7 @@ def smarterScientists():
             hardExcavations = True
 
     for y in range(len(scientistsList)):
+        hardExcavations = False
         print("Setting up scientist: " + str(y + 1))
         pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistsList[y][0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistsList[y][1], positions.currentResolution[1], positions.originalResolution[1]))
         mouseAndKeyboard.clickMouse()
@@ -89,7 +104,7 @@ def smarterScientists():
                     else:
                         whatRegionWasFound = "left"
                     print("Looking for " + image + " in " + whatRegionWasFound)
-                    foundImage = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\excavations\\" + image + ".png", confidence = imageConfidence, region = regionChoice) #region = (leftChoiceRegion[0], leftChoiceRegion[1], leftChoiceRegion[2], leftChoiceRegion[3])
+                    foundImage = pyautogui.locateOnScreen(str(fh.getPathToCurrentDir()) + "images\\excavations\\" + image + ".png", confidence = confidenceOfItems.get(image), region = regionChoice) #region = (leftChoiceRegion[0], leftChoiceRegion[1], leftChoiceRegion[2], leftChoiceRegion[3])
                     if foundImage:
                         whatRegionWasFound = ""
                         canBreak = True
@@ -177,12 +192,12 @@ def scientists():
             time.sleep(positions.defaultDelay)
             if hardExcavations:
                 pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistHardDifficulty[1], positions.currentResolution[1], positions.originalResolution[1]))
-                time.sleep(positions.defaultDelay)
+                time.sleep(4)
                 mouseAndKeyboard.clickMouse()
                 time.sleep(positions.defaultDelay)
             else:
                 pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistEasyDifficulty[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistEasyDifficulty[1], positions.currentResolution[1], positions.originalResolution[1]))
-                time.sleep(positions.defaultDelay)
+                time.sleep(4)
                 mouseAndKeyboard.clickMouse()
                 time.sleep(positions.defaultDelay)
             pyautogui.moveTo(MrMineMath.convertToCurrentResolutionPosition(scientistCollectButton[0], positions.currentResolution[0], positions.originalResolution[0]), MrMineMath.convertToCurrentResolutionPosition(scientistCollectButton[1], positions.currentResolution[1], positions.originalResolution[1]))

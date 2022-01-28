@@ -25,8 +25,7 @@ yellowGem = 959, 760
 gemList = [redGem, blueGem, greenGem, purpleGem, yellowGem]
 
 def craftGemsMain():
-
-    pass
+    craftGems(8)
 
 def craftGems(amountOfGemSlots):
     generalFunctions.goToMrMineScreen()

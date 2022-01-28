@@ -27,7 +27,9 @@ def doAutoEverythingBySequence():
         gemCrafting.craftGems(amountOfGemsToCraft)
         trading.trade()
         excavtions.excavationsMain()
+        sellMinerals.sellMinerals()
         mineFloors.miningMain()
+        trading.trade()
         cave.doCaves()
         gemCrafting.craftGems(amountOfGemsToCraft)
         trading.trade()
@@ -39,8 +41,6 @@ def doAutoEverythingBySequence():
         gemCrafting.craftGems(amountOfGemsToCraft)
         excavtions.excavationsMain()
         cave.collectCaveItems(amountOfChestsToBeClicked)
-        bufflab.buffLab()
+        bufflab.buffLabMain()
         trading.trade()
         sellMinerals.sellMinerals() #Do things before selling
-
-excavtions.excavationsMain()

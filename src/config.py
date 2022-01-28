@@ -44,11 +44,10 @@ def initialize():
 
             fh.addTextToSpecifiedFile(positions.userconfigFile, "[General]\n")
             fh.addTextToSpecifiedFile(positions.userconfigFile, "amountOfChestsToBeClicked = 10;\n")
-            fh.addTextToSpecifiedFile(positions.userconfigFile, "goldchestDetection = False;\n")
             fh.addTextToSpecifiedFile(positions.userconfigFile, "hasInstalledModules = False;\n")
 
-            fh.addTextToSpecifiedFile(positions.userconfigFile, "[Metal Detector]\n") #Dont know
-            fh.addTextToSpecifiedFile(positions.userconfigFile, "compressToGoldChest = False;\n") #Dpnt know
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "[Metal Detector]\n")
+            fh.addTextToSpecifiedFile(positions.userconfigFile, "compressToGoldChest = False;\n")
 
             fh.addTextToSpecifiedFile(positions.userconfigFile, "[Trading]\n")
             fh.addTextToSpecifiedFile(positions.userconfigFile, "tradingEnabled = True;\n")

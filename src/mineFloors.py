@@ -10,6 +10,7 @@ import mouseAndKeyboard
 import positionsAndResolution
 import fileHandling
 import monsters
+import bufflab
 
 pyautogui.FAILSAFE = True
 
@@ -65,7 +66,7 @@ def collectChestsInMineImproved():
     counter = 0
     generalFunctions.goToMrMineScreen()
     generalFunctions.goToSafeClickArea()
-    maxCount = positions.amountOfChestsToBeClicked * 2
+    maxCount = positions.amountOfChestsToBeClicked
     nothingToDoInARow = 0
     amountOfTriesBeforeSkip = 3
 
@@ -264,6 +265,7 @@ def collectChestBelowMiddle():
         iterateOverAllMinersOnAFloor(i * - 200)
 
 def fastCollectChest(*args):
+    bufflab.clickOneBuff(bufflab.lowestTierNuggetOfAttraction)
     generalFunctions.goToMrMineScreen()
     generalFunctions.goToSafeClickArea()
     amountOfIterations = 30
@@ -317,4 +319,4 @@ def checkIfRainShower():
         print("No rain shower detected.")
     mouseAndKeyboard.pressButton('space')
 
-#checkIfOre()
+#fastCollectChest()

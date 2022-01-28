@@ -15,9 +15,10 @@ Added rain shower detection.
     *Checks after each chest in mine
     *Checks after collecting items from caves
 
-Added an imporoved method of chest collecting from metal detector.
+Added an improved method of chest collecting from metal detector.
 Added fast collecting of chests in mine. (Is now extremely quick with lvl 5 metal detector)
-
+Added a smarter selection of buffs in the buff lab.
+    
 =?=Adjustments=?=
 Adjusted fish ore confidence.
 Adjusted reactor values.
